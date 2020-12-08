@@ -70,10 +70,10 @@
      <Compile Include="Assets\Scripts\PatternEditor.cs" />
      <Compile Include="Assets\Scripts\Debugging.cs" />
      <Compile Include="Assets\Scripts\PatternSaver.cs" />
+     <Compile Include="Assets\Scripts\ChordCreator.cs" />
      <Compile Include="Assets\Scripts\TryScript.cs" />
      <Compile Include="Assets\Scripts\PatternPreviewSq.cs" />
      <Compile Include="Assets\Scripts\Song.cs" />
-     <Compile Include="Assets\Scripts\ChordCreator.cs" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />

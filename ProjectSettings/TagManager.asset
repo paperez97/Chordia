@@ -7,6 +7,8 @@ TagManager:
   - Default
   - Song
   - ChordsContainer
+  - Chord
+  - Bin
   layers:
   - Default
   - TransparentFX

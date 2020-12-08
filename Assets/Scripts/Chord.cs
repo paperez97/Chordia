@@ -20,12 +20,9 @@ public class Chord : MonoBehaviour
     public UIElementDragger dragger;
     public bool finishedDragging = true;
     public bool activated = false;
+    public bool deleting = false;
 
     //Chord
-    public enum DegreeList { I, II, III, IV, V, VI, VII };
-    public DegreeList enumDegree;
-    public enum ScaleChordTypeList { Triad, sus2, sus4, seventh};
-    public ScaleChordTypeList enumScaleChordType;
     public Song song;
     public int degree;
     public List<int> chord;
@@ -67,6 +64,10 @@ public class Chord : MonoBehaviour
             toggle.isOn = !toggle.isOn;
             finishedDragging = true;
         }
+        if(!dragger.dragging && deleting)
+        {
+            Destroy(gameObject);
+        }
 
         //Chord
         chord = Music.NotesOfChord(degree, song.scale, scaleChordType);
@@ -90,10 +91,20 @@ public class Chord : MonoBehaviour
         border2.color = color;
     }
 
-    //I don't know why this is needed but i can't seem to change degree directly from another script
-    public void SetDegree(int nDegree)
+    void OnTriggerEnter2D(Collider2D other)
     {
-        degree = nDegree;
+        if(other.gameObject.tag == "Bin")
+        {
+            deleting = true;
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "Bin")
+        {
+            deleting = false;
+        }
     }
 }
 

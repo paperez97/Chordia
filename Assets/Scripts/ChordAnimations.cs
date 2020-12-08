@@ -38,5 +38,14 @@ public class ChordAnimations : MonoBehaviour
         {
             animator.SetBool("dragging", false);
         }
-   }
+
+        if (chord.deleting)
+        {
+            animator.SetBool("deleting", true);
+        }
+        else
+        {
+            animator.SetBool("deleting", false);
+        }
+    }
 }
