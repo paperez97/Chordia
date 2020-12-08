@@ -55,50 +55,6 @@ public class Chord : MonoBehaviour
 
         //Chord
         song = GameObject.FindGameObjectWithTag("GameController").GetComponent<Song>();
-        switch (enumDegree)
-        {
-            case DegreeList.I:
-                degree = 1;
-                break;
-            case DegreeList.II:
-                degree = 2;
-                break;
-            case DegreeList.III:
-                degree = 3;
-                break;
-            case DegreeList.IV:
-                degree = 4;
-                break;
-            case DegreeList.V:
-                degree = 5;
-                break;
-            case DegreeList.VI:
-                degree = 6;
-                break;
-            case DegreeList.VII:
-                degree = 7;
-                break;
-            default:
-                break;
-        }
-
-        switch (enumScaleChordType)
-        {
-            case ScaleChordTypeList.Triad:
-                scaleChordType = Music.triad;
-                break;
-            case ScaleChordTypeList.sus2:
-                scaleChordType = Music.sus2;
-                break;
-            case ScaleChordTypeList.sus4:
-                scaleChordType = Music.sus4;
-                break;
-            case ScaleChordTypeList.seventh:
-                scaleChordType = Music.seventh;
-                break;
-            default:
-                break;
-        }
     }
 
 
@@ -134,6 +90,11 @@ public class Chord : MonoBehaviour
         border2.color = color;
     }
 
+    //I don't know why this is needed but i can't seem to change degree directly from another script
+    public void SetDegree(int nDegree)
+    {
+        degree = nDegree;
+    }
 }
 
 
