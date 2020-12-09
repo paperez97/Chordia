@@ -6,14 +6,12 @@ public class ChordAnimations : MonoBehaviour
 {
 
     Animator animator;
-    UIElementDragger dragger;
     Chord chord;
     
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
-        dragger = GetComponent<UIElementDragger>();
         chord = GetComponent<Chord>();
     }
 
@@ -30,7 +28,7 @@ public class ChordAnimations : MonoBehaviour
             animator.SetBool("isActive", false);
         }
 
-        if (dragger.dragging)
+        if (chord.dragging)
         {
             animator.SetBool("dragging", true);
         }
