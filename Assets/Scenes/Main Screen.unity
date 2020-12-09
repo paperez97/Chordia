@@ -2250,7 +2250,7 @@ PrefabInstance:
     - target: {fileID: -4165261054785473773, guid: 8a136b2832113ab46a7f757a0c31f0b1,
         type: 3}
       propertyPath: m_IsOn
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4165261054785473773, guid: 8a136b2832113ab46a7f757a0c31f0b1,
         type: 3}
@@ -5418,7 +5418,7 @@ MonoBehaviour:
           m_StringArgument: Synth
           m_BoolArgument: 0
         m_CallState: 2
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!114 &464268765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9198,7 +9198,7 @@ MonoBehaviour:
           m_StringArgument: Piano
           m_BoolArgument: 0
         m_CallState: 2
-  m_IsOn: 0
+  m_IsOn: 1
 --- !u!114 &781600649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10071,7 +10071,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 648ac9effd720a3448033dbce16c94fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chord: 
+  activeChord: {fileID: 0}
+  chordsOnTheTable: []
   scaleType: 
   scale: 
   key: 0
@@ -24077,6 +24078,7 @@ GameObject:
   - component: {fileID: 1930047133}
   - component: {fileID: 1930047134}
   - component: {fileID: 1930047135}
+  - component: {fileID: 1930047137}
   m_Layer: 5
   m_Name: Chords
   m_TagString: Untagged
@@ -24100,9 +24102,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 68, y: -68.95}
-  m_SizeDelta: {x: 1688.4291, y: 1244.8689}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -829.2, y: 553.48444}
+  m_SizeDelta: {x: 1741.4752, y: 1237.2888}
+  m_Pivot: {x: 0, y: 1}
 --- !u!114 &1930047134
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24140,6 +24142,14 @@ MonoBehaviour:
   m_Spacing: {x: 71.3, y: 72.3}
   m_Constraint: 0
   m_ConstraintCount: 2
+--- !u!222 &1930047137
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1930047132}
+  m_CullTransparentMesh: 0
 --- !u!1 &1934135113
 GameObject:
   m_ObjectHideFlags: 0

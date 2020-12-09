@@ -6,9 +6,13 @@ public class ChordCreator : MonoBehaviour
 {
     public GameObject chordPrefab;
     GameObject newChord;
-    public int selectedDegree = 1;
+    public int selectedDegree;
     public GameObject chordsContainer;
 
+    void Start()
+    {
+        selectedDegree = 1;
+    }
     public void CreateChord()
     {
         newChord = Instantiate(chordPrefab, chordsContainer.transform);

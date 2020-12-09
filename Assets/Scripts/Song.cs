@@ -6,7 +6,8 @@ using System;
 public class Song : MonoBehaviour
 {
     //Harmony
-    public List<int> chord;
+    public Chord activeChord;
+    public List<Chord> chordsOnTheTable = new List<Chord>();
     public int[] scaleType;
     public int[] scale;
     public int key;
@@ -88,6 +89,15 @@ public class Song : MonoBehaviour
         pattern = nPattern;
     }
 
+    public void ChangeActiveChord(Chord nChord)
+    {
+        if (activeChord != null)
+        {
+            activeChord.SetOff();
+        }
+        activeChord = nChord;
+    }
+
     void Start()
     {
         stepPattern = 0;
@@ -96,8 +106,7 @@ public class Song : MonoBehaviour
         ChangeTempo(200);
         ChangeScaleType(0);
         ChangeSwing(false);
-        ChangeInterprete("Synth");
-        chord = new List<int> { };
+        ChangeInterprete("Piano");
         scale = Music.NotesOfScale(key, scaleType);
         swing = false;
 
@@ -107,14 +116,15 @@ public class Song : MonoBehaviour
     {
         first = pattern[0];
         //Cada pulso
-        if (Time.time > next && chord.Count != 0)
+
+        if (Time.time > next && activeChord != null && activeChord.chord.Count != 0)
         {
             //Incrementamos pattern
             stepPattern ++;
             if (stepPattern >= beats) { stepPattern = 0; }
 
             //Segundo necesitamos los ints de las teclas del telcado que tocar
-            List<int> teclasAcorde = Music.TeclasOfChord(chord);
+            List<int> teclasAcorde = Music.TeclasOfChord(activeChord.chord);
 
             //Metemos a teclasATocar las teclas que requiere este stepPattern
             teclasATocar.Clear();
@@ -151,6 +161,5 @@ public class Song : MonoBehaviour
             }
 
         }
-        else if(chord.Count == 0) synth.Silence();
     }
 }

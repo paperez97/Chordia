@@ -19,89 +19,67 @@ public class Chord : MonoBehaviour
     public UIElementDragger dragger;
     public bool activated = false;
     public bool deleting = false;
-    public bool dragged = false;
 
     //Chord
     public Song song;
-    public int degree;
     public List<int> chord;
+    public int degree;
     public int[] scaleChordType;
-    public string chordType;
+    public int[][] scaleChordTypes;
+    public int[] defaultScaleChordType;
 
     //Methods
-    public void SetOn()
-    {
-        if (dragged)
-        {
-            dragged = false;
-        }
-        else
-        {
-            if (activated)
-            {
-                SetOff();
-            }
-            else
-            {
-                activated = true;
-                song.chord = chord;
-                foreach (Transform chordTransform in transform.parent)
-                {
-                    if (chordTransform != transform)
-
-                    {
-                        chordTransform.gameObject.GetComponent<Chord>().SetOff();
-                    }
-                }
-            }
-        }
-    }
-    
-
-    public void SetOff()
-    {
-        activated = false;
-        song.chord = new List<int> { };
-    }
-
     void Start()
     {
-        //Behaviour
-
         //Chord
+        defaultScaleChordType = Music.triad;
         song = GameObject.FindGameObjectWithTag("GameController").GetComponent<Song>();
+        song.chordsOnTheTable.Add(this);
+        scaleChordTypes = new int[][] { Music.sus4, Music.seventh, Music.sus2, Music.triad };
+        UpdateChord();
     }
 
 
     void Update()
     {
-        //Dragging
-        if (dragger.dragging)
-        {
-            dragged = true;
-        }
-        if(!dragger.dragging && deleting)
+        if (!dragger.dragging && deleting)
         {
             Destroy(gameObject);
+            song.chordsOnTheTable.Remove(this);
         }
-
-        //Chord
-        chord = Music.NotesOfChord(degree, song.scale, scaleChordType);
-        chordType = Music.TypeOfChord(chord, scaleChordType);
-        degreeText.text = Music.ToRomanNumerals(degree);
-        chordNameText.text = Music.IntToNote(chord[0]).ToString();
-        if (chordNameText.text.ToLower() == chordNameText.text)
-        {
-            chordNameText.text = chordNameText.text.ToUpper() + '#';
-        }
-        chordNameText.text += chordType;
-        song.chord = chord;
 
         //Design
         color = Music.DegreeColor(degree);
         nucleus.color = color;
         border1.color = color;
         border2.color = color;
+    }
+
+    public void SetOn(int option)
+    {
+        if (activated)
+        {
+            SetOff();
+        }
+
+        else
+        {
+            activated = true;
+            scaleChordType = scaleChordTypes[option];
+            UpdateChord();
+            song.ChangeActiveChord(this);
+        }
+
+
+    }
+    
+
+    public void SetOff()
+    {
+        activated = false;
+        scaleChordType = defaultScaleChordType;
+        UpdateChord();
+        song.activeChord = null;
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -118,6 +96,30 @@ public class Chord : MonoBehaviour
         {
             deleting = false;
         }
+    }
+
+    void UpdateChord()
+    {
+        //Qué grado es? (I, III, IV...)
+        degreeText.text = Music.ToRomanNumerals(degree);
+
+        //Sacamos las notas para esta tonalidad
+        chord = Music.NotesOfChord(degree, song.scale, scaleChordType);
+
+        //es mayor o menor o qué leches
+        string chordType = Music.TypeOfChord(chord, scaleChordType);
+
+        //Qué nota es la fundamental? (C, E, A...)
+        chordNameText.text = Music.IntToNote(chord[0]).ToString();
+
+        //Es #?
+        if (chordNameText.text.ToLower() == chordNameText.text)
+        {
+            chordNameText.text = chordNameText.text.ToUpper() + '#';
+        }
+
+        //Añadimos el menor o mayor al nombre de la fundamental
+        chordNameText.text += chordType;
     }
 }
 

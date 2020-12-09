@@ -89,7 +89,7 @@ public static class Music
         return result;
     }
     public static string TypeOfChord(List<int> notesOfChord, int[] scaleChordType)
-    {   //Devuelve el tipo del acorde introducido
+    {   //Devuelve el tipo del acorde introducido --> (str) "m", "sus2", "M7" ...
 
         if (Music.AreArraysEqual(scaleChordType, Music.triad))
         {
