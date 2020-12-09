@@ -113,13 +113,11 @@ public class Song : MonoBehaviour
             stepPattern ++;
             if (stepPattern >= beats) { stepPattern = 0; }
 
-            //Metemos en teclasATocar las notas que corresponden al pulso del pattern que toca
-            teclasATocar.Clear();
-
             //Segundo necesitamos los ints de las teclas del telcado que tocar
             List<int> teclasAcorde = Music.TeclasOfChord(chord);
 
             //Metemos a teclasATocar las teclas que requiere este stepPattern
+            teclasATocar.Clear();
             foreach (int note in pattern[stepPattern])
             {
                 teclasATocar.Add(teclasAcorde[note]);

@@ -16,11 +16,10 @@ public class Chord : MonoBehaviour
     public Text chordNameText;
 
     //Behaviour
-    Toggle toggle;
     public UIElementDragger dragger;
-    public bool finishedDragging = true;
     public bool activated = false;
     public bool deleting = false;
+    public bool dragged = false;
 
     //Chord
     public Song song;
@@ -30,25 +29,44 @@ public class Chord : MonoBehaviour
     public string chordType;
 
     //Methods
-    public void OnOff(bool isOn)
+    public void SetOn()
     {
-
-        if (isOn)
+        if (dragged)
         {
-            activated = true;
-            song.chord = chord;
+            dragged = false;
         }
         else
         {
-            activated = false;
-            song.chord = new List<int> { };
+            if (activated)
+            {
+                SetOff();
+            }
+            else
+            {
+                activated = true;
+                song.chord = chord;
+                foreach (Transform chordTransform in transform.parent)
+                {
+                    if (chordTransform != transform)
+
+                    {
+                        chordTransform.gameObject.GetComponent<Chord>().SetOff();
+                    }
+                }
+            }
         }
+    }
+    
+
+    public void SetOff()
+    {
+        activated = false;
+        song.chord = new List<int> { };
     }
 
     void Start()
     {
         //Behaviour
-        toggle = GetComponent<Toggle>();
 
         //Chord
         song = GameObject.FindGameObjectWithTag("GameController").GetComponent<Song>();
@@ -57,12 +75,10 @@ public class Chord : MonoBehaviour
 
     void Update()
     {
-        //Behaviour
-        if (dragger.dragging) { finishedDragging = false; }
-        if (!dragger.dragging && !finishedDragging )
+        //Dragging
+        if (dragger.dragging)
         {
-            toggle.isOn = !toggle.isOn;
-            finishedDragging = true;
+            dragged = true;
         }
         if(!dragger.dragging && deleting)
         {
@@ -79,10 +95,7 @@ public class Chord : MonoBehaviour
             chordNameText.text = chordNameText.text.ToUpper() + '#';
         }
         chordNameText.text += chordType;
-        if(activated)
-        {
-            song.chord = chord;
-        }
+        song.chord = chord;
 
         //Design
         color = Music.DegreeColor(degree);
