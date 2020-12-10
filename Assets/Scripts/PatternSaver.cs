@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class PatternSaver : MonoBehaviour
 {
-
+    public GameObject prefabDefaultSavedPattern;
     public GameObject prefabSavedPattern;
     public Transform parent;
     public Toggle patternEditorOpener;
@@ -13,18 +13,22 @@ public class PatternSaver : MonoBehaviour
 
     public void AddNewPattern(bool isDefault)
     {
-        SavedPattern nPattern = Instantiate(prefabSavedPattern, parent).GetComponent<SavedPattern>();
         if (isDefault)
         {
-            nPattern.isDefault = true;
+            Instantiate(prefabDefaultSavedPattern, parent);
+            patternEditorOpener.isOn = false;
         }
-        else{patternEditorOpener.isOn = true;}
+        else
+        {
+            Instantiate(prefabSavedPattern, parent);
+            patternEditorOpener.isOn = true;
+        }
     }
+
 
     void Start()
     {
-        AddNewPattern(false);
-
+        AddNewPattern(true);
     }
 
 }

@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class PatternEditorCell : MonoBehaviour
 {
-    public PatternEditor patternEditor;
     public int column;
     public int row;
     Toggle toggle;
@@ -20,13 +19,13 @@ public class PatternEditorCell : MonoBehaviour
     {//Se añade a pattern si no está y se quita si está
         if(isOn)
         {
-            if (!patternEditor.editingPattern.pattern[column].Exists(element => element == row))
-             { patternEditor.editingPattern.pattern[column].Add(row); }
+            if (!song.savedPattern.pattern[column].Exists(element => element == row))
+             { song.savedPattern.pattern[column].Add(row); }
 
         }
         else
         {
-            patternEditor.editingPattern.pattern[column].Remove(row);
+            song.savedPattern.pattern[column].Remove(row);
         }
 
 
@@ -41,13 +40,13 @@ public class PatternEditorCell : MonoBehaviour
     void Update()
     {
         playing.SetActive(song.stepPattern == column);
-        lowlight.SetActive(column > song.beats - 1);
+        lowlight.SetActive(column > song.savedPattern.beats - 1);
     }
 
     public void RefreshToggle()
     {
 
-            if (patternEditor.editingPattern.pattern[column].Exists(element => element == row))
+            if (song.savedPattern.pattern[column].Exists(element => element == row))
             {
                 toggle.isOn = true;
             }

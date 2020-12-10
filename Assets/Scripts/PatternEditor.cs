@@ -5,36 +5,41 @@ using UnityEngine.UI;
 
 public class PatternEditor : MonoBehaviour
 {
-    public SavedPattern editingPattern;
+    public SavedPattern savedPattern;
     public Slider slider;
     public Transform cellGrid;
     public List<PatternEditorCell> cells;
+    Song song;
+
 
 
     private void Start()
     {
+        song = GameObject.FindGameObjectWithTag("Song").GetComponent<Song>();
         foreach (Transform cell in cellGrid)
         {
             cells.Add(cell.gameObject.GetComponent<PatternEditorCell>());
         }
     }
 
-    public void RefreshCells()
+    void Update()
     {
-            foreach (PatternEditorCell cell in cells)
-            {
-                cell.RefreshToggle();
-            }
+        savedPattern = song.savedPattern;
+        slider.value = song.savedPattern.beats;
+        RefreshCells();
     }
 
-    public void ChangeBeats(float newBeats)
+    public void RefreshCells()
     {
-        editingPattern.beats = newBeats;
+        foreach (PatternEditorCell cell in cells)
+        {
+            cell.RefreshToggle();
+        }
     }
 
     public void DestroyEditingPattern()
     {
-        Destroy(editingPattern.gameObject);
+        Destroy(savedPattern.gameObject);
     }
 }
 

@@ -7,6 +7,7 @@ public class Song : MonoBehaviour
 {
     //Harmony
     public Chord activeChord;
+    public SavedPattern savedPattern;
     public List<Chord> chordsOnTheTable = new List<Chord>();
     public int[] scaleType;
     public int[] scale;
@@ -14,8 +15,6 @@ public class Song : MonoBehaviour
 
     //Tempo
     public int stepPattern;
-    public List<int>[] pattern;
-    public float beats;
     public float tempo;
     float refDuration;
     private float next = 0f;
@@ -84,9 +83,9 @@ public class Song : MonoBehaviour
     {
         interprete = nInterprete;
     }
-    public void ChangePattern (List<int>[] nPattern)
+    public void ChangePattern (SavedPattern nPattern)
     {
-        pattern = nPattern;
+        savedPattern = nPattern;
     }
 
     public void ChangeActiveChord(Chord nChord)
@@ -98,10 +97,14 @@ public class Song : MonoBehaviour
         activeChord = nChord;
     }
 
+    public void ChangeBeats(float nBeats)
+    {
+        savedPattern.beats = nBeats;
+    }
+
     void Start()
     {
         stepPattern = 0;
-        pattern = new List<int>[] { new List<int>(), new List<int>(), new List<int>(), new List<int>(), new List<int>(), new List<int>(), new List<int>(), new List<int>() };
         ChangeKey(0);
         ChangeTempo(200);
         ChangeScaleType(0);
@@ -114,21 +117,21 @@ public class Song : MonoBehaviour
 
     void Update()
     {
-        first = pattern[0];
+        first = savedPattern.pattern[0];
         //Cada pulso
 
         if (Time.time > next && activeChord != null && activeChord.chord.Count != 0)
         {
             //Incrementamos pattern
             stepPattern ++;
-            if (stepPattern >= beats) { stepPattern = 0; }
+            if (stepPattern >= savedPattern.beats) { stepPattern = 0; }
 
             //Segundo necesitamos los ints de las teclas del telcado que tocar
             List<int> teclasAcorde = Music.TeclasOfChord(activeChord.chord);
 
             //Metemos a teclasATocar las teclas que requiere este stepPattern
             teclasATocar.Clear();
-            foreach (int note in pattern[stepPattern])
+            foreach (int note in savedPattern.pattern[stepPattern])
             {
                 teclasATocar.Add(teclasAcorde[note]);
             }

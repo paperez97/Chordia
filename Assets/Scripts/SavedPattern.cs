@@ -9,40 +9,18 @@ public class SavedPattern : MonoBehaviour
     public List<int>[] pattern;
     public float beats;
     Song song;
-    public PatternEditor patternEditor;
     Toggle toggle;
     public bool isDefault;
-
-    
-
-    public void ActivatePattern(bool isOn)
-    {
-        if (isOn)
-        {
-            song.pattern = pattern;
-            song.beats = beats;
-            patternEditor.editingPattern = this;
-            patternEditor.slider.value = beats;
-            patternEditor.RefreshCells();
-        }
-
-    }
 
     public void SetBeats(float newBeats)
     {
         beats = newBeats;
     }
 
-    public void RefreshEditor()
-    {
-        patternEditor.RefreshCells();
-    }
-
     // Start is called before the first frame update
     void Start()
     {
         song = GameObject.FindGameObjectWithTag("Song").GetComponent<Song>();
-        patternEditor = GameObject.FindGameObjectWithTag("EditorOnly").GetComponent<PatternEditor>();
 
         toggle = GetComponent<Toggle>();
  
@@ -56,27 +34,28 @@ public class SavedPattern : MonoBehaviour
                                     new List<int>() };
         beats = 8;
 
-        AddToPattern(1, 6);
-        RefreshEditor();
-
+        if(isDefault)
+        {
+            AddToPattern(1, 6);
+            AddToPattern(2, 7);
+            AddToPattern(3, 8);
+            beats = 4;
+        }
         toggle.group = transform.parent.gameObject.GetComponent<ToggleGroup>();
         toggle.isOn = true;
-        ActivatePattern(true);
-
     }
 
     private void Update()
     {
         if(toggle.isOn)
         {
-            song.pattern = pattern;
-            song.beats = beats;
+            song.ChangePattern(this);
+            song.ChangeBeats(beats);
         }
     }
 
     public void AddToPattern(int beat, int note)
     {
         pattern[beat-1].Add(note);
-        RefreshEditor();
     }
 }
