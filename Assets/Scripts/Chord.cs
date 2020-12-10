@@ -11,23 +11,24 @@ public class Chord : MonoBehaviour
     public Image nucleus;
     public Image border1;
     public Image border2;
-    private Color color;
+    public Color color;
     public Text degreeText;
     public Text chordNameText;
+    public GameObject variants;
     
     //Behaviour
     public UIElementDragger dragger;
     public bool activated = false;
     public bool deleting = false;
-    private float time;
+    private float lastPressedTime;
     float lag = 0.3f;
     Vector2 offset;
-    Vector2 swipe;
+    public Vector2 swipe;
     public bool dragging;
     bool dragged;
     RectTransform rectTrasnform;
-    int nOptions = 4;
-    private bool pressed;
+    public int numOptions = 4;
+    public bool pressed;
     Vector3 mouseDownPos;
 
     //Chord
@@ -48,12 +49,15 @@ public class Chord : MonoBehaviour
         scaleChordTypes = new int[][] { Music.sus4, Music.seventh, Music.sus2, Music.triad };
         rectTrasnform = gameObject.GetComponent<RectTransform>();
         UpdateChord();
+
+        //Design
+        ChangeColor(Music.DegreeColor(degree));
     }
 
     void Update()
     {
         //Dragging
-        if (pressed && (Time.time - time > lag) && mouseDownPos == Input.mousePosition)
+        if (pressed && (Time.time - lastPressedTime > lag) && mouseDownPos == Input.mousePosition)
         {
             dragging = true;
             offset = - mouseDownPos + transform.position;
@@ -65,17 +69,27 @@ public class Chord : MonoBehaviour
             transform.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y) + offset;
         }
 
+        if(dragging && deleting)
+        {
+            ChangeColor(Color.red);
+        }
+        else if(dragging && !deleting)
+        {
+            ChangeColor(Music.DegreeColor(degree));
+        }
+
         if (!dragging && deleting)
         {
             Destroy(gameObject);
             song.chordsOnTheTable.Remove(this);
         }
 
-        //Design
-        color = Music.DegreeColor(degree);
-        nucleus.color = color;
-        border1.color = color;
-        border2.color = color;
+        if(pressed)
+        {
+            swipe = Input.mousePosition - mouseDownPos;
+        }
+
+
     }
 
     void UpdateChord()
@@ -140,7 +154,7 @@ public class Chord : MonoBehaviour
 
     public void ChordPressed()
     {
-        time = Time.time;
+        lastPressedTime = Time.time;
         pressed = true;
         mouseDownPos = Input.mousePosition;
     }
@@ -149,9 +163,8 @@ public class Chord : MonoBehaviour
     {
         dragging = false;
         pressed = false;
-        swipe = Input.mousePosition - mouseDownPos;
         if (dragged) { dragged = false; }
-        else { SetOn(SwipeOption(swipe, nOptions)); }
+        else { SetOn(SwipeOption(swipe, numOptions)); }
     }
 
     public int SwipeOption(Vector2 swipe, int options)
@@ -179,6 +192,18 @@ public class Chord : MonoBehaviour
         //devolvemos best
         //Debug.Log(best[0].ToString() + " " +  best[1].ToString());
         return (int)best[0];
+    }
+
+    void ChangeColor(Color color)
+    {
+        nucleus.color = color;
+        border1.color = color;
+        border2.color = color;
+        foreach(Transform variant in variants.transform)
+        {
+            variant.gameObject.GetComponent<Image>().color = color;
+        }
+
     }
 
     void OnTriggerEnter2D(Collider2D other)

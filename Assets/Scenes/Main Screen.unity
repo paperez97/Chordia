@@ -6299,6 +6299,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f33ed37d7a1504926ad991364fe13e20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  prefabDefaultSavedPattern: {fileID: 1855570820842704826, guid: cae83abfc9b18384e82331d9547110e7,
+    type: 3}
   prefabSavedPattern: {fileID: 1855570820842704826, guid: 3738169bf26fe437ebb03dc1cd28883d,
     type: 3}
   parent: {fileID: 520609430}
@@ -10078,12 +10080,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activeChord: {fileID: 0}
+  savedPattern: {fileID: 0}
   chordsOnTheTable: []
   scaleType: 
   scale: 
   key: 0
   stepPattern: 0
-  beats: 0
   tempo: 60
   swing: 0
   first: 
@@ -19730,8 +19732,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1652389120}
-        m_TargetAssemblyTypeName: PatternEditor, Assembly-CSharp
+      - m_Target: {fileID: 835067128}
+        m_TargetAssemblyTypeName: Song, Assembly-CSharp
         m_MethodName: ChangeBeats
         m_Mode: 0
         m_Arguments:
@@ -20275,7 +20277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bdb0f0ce0b724dbf823d4b77f61be61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  editingPattern: {fileID: 0}
+  savedPattern: {fileID: 0}
   slider: {fileID: 1573703664}
   cellGrid: {fileID: 449261629}
   cells: []
