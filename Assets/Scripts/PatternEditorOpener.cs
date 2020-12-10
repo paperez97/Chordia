@@ -9,7 +9,7 @@ public class PatternEditorOpener : MonoBehaviour
     public RectTransform rectTransform;
     public RectTransform patternEditorRectTransform;
 
-
+    //Mueve el botón abajo cuando está activado para que siga pegado a la parte inferior del Pattern Editor
     public void ChangePositionWhenOn(bool isOn)
     {
         rectTransform.Translate(new Vector3(0,

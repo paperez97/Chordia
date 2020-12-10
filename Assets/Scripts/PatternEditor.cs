@@ -19,11 +19,6 @@ public class PatternEditor : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        //RefreshCells();
-    }
-
     public void RefreshCells()
     {
             foreach (PatternEditorCell cell in cells)

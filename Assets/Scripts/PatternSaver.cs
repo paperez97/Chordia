@@ -6,14 +6,24 @@ using UnityEngine.UI;
 public class PatternSaver : MonoBehaviour
 {
 
-    public GameObject prefabSquare;
+    public GameObject prefabSavedPattern;
     public Transform parent;
     public Toggle patternEditorOpener;
+    public PatternEditor patternEditor;
 
-    public void SavePattern()
+    public void AddNewPattern(bool isDefault)
     {
-        patternEditorOpener.isOn = true;
-        Instantiate(prefabSquare, parent);
+        SavedPattern nPattern = Instantiate(prefabSavedPattern, parent).GetComponent<SavedPattern>();
+        if (isDefault)
+        {
+            nPattern.isDefault = true;
+        }
+        else{patternEditorOpener.isOn = true;}
+    }
+
+    void Start()
+    {
+        AddNewPattern(false);
 
     }
 

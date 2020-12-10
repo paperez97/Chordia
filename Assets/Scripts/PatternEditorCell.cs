@@ -17,7 +17,7 @@ public class PatternEditorCell : MonoBehaviour
 
 
     public void SetPattern(bool isOn)
-    {
+    {//Se añade a pattern si no está y se quita si está
         if(isOn)
         {
             if (!patternEditor.editingPattern.pattern[column].Exists(element => element == row))

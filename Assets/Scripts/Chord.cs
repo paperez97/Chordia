@@ -43,7 +43,7 @@ public class Chord : MonoBehaviour
     {
         //Chord
         defaultScaleChordType = Music.triad;
-        song = GameObject.FindGameObjectWithTag("GameController").GetComponent<Song>();
+        song = GameObject.FindGameObjectWithTag("Song").GetComponent<Song>();
         song.chordsOnTheTable.Add(this);
         scaleChordTypes = new int[][] { Music.sus4, Music.seventh, Music.sus2, Music.triad };
         rectTrasnform = gameObject.GetComponent<RectTransform>();
