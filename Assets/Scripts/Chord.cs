@@ -11,7 +11,7 @@ public class Chord : MonoBehaviour
     public Image nucleus;
     public Image border1;
     public Image border2;
-    public Color color;
+    Color color;
     public Text degreeText;
     public Text chordNameText;
     public GameObject variants;
@@ -20,6 +20,7 @@ public class Chord : MonoBehaviour
     public UIElementDragger dragger;
     public bool activated = false;
     public bool deleting = false;
+    public float redness = 0;
     private float lastPressedTime;
     float lag = 0.3f;
     Vector2 offset;
@@ -49,9 +50,10 @@ public class Chord : MonoBehaviour
         song = GameObject.FindGameObjectWithTag("Song").GetComponent<Song>();
         song.chordsOnTheTable.Add(this);
         scaleChordTypes = new int[][] { Music.sus4, Music.seventh, Music.sus2, Music.triad };
-        
+
         //Design
-        ChangeColor(Music.DegreeColor(degree));
+        color = Music.DegreeColor(degree);
+        Debug.Log(Music.DegreeColor(degree).r);
 
         UpdateChord();
     }
@@ -70,14 +72,7 @@ public class Chord : MonoBehaviour
         {
             dragged = true;
             transform.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y) + offset;
-            if(deleting)
-            {
-                ChangeColor(Color.red);
-            }
-            else
-            {
-                ChangeColor(Music.DegreeColor(degree));
-            }
+
         }
         else
         {
@@ -87,6 +82,9 @@ public class Chord : MonoBehaviour
                 song.chordsOnTheTable.Remove(this);
             }
         }
+
+        color = Music.DegreeColor(degree) + (Color.red - Music.DegreeColor(degree)) * redness;
+        ChangeColor(color);
 
         if(pressed)
         {
@@ -214,7 +212,7 @@ public class Chord : MonoBehaviour
         border2.color = color;
         foreach(Transform variant in variants.transform)
         {
-            variant.gameObject.GetComponent<Image>().color = color;
+            variant.gameObject.GetComponent<Image>().color = new Color(color.r, color.g, color.b, variant.gameObject.GetComponent<Image>().color.a);
         }
 
     }
@@ -234,8 +232,6 @@ public class Chord : MonoBehaviour
             deleting = false;
         }
     }
-
-    
 }
 
 

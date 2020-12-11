@@ -8,11 +8,16 @@ public class ChordCreator : MonoBehaviour
     public GameObject chordPrefab;
     GameObject newChord;
     public GameObject chordsContainer;
-    public GameObject chordDeleter;
     public bool anyChordsDragging;
-    public Animator crossGraphic;
-    public Animator addChordButtons;
+    public Animator chordCreator;
     public Toggle chordCreatorToggle;
+    public bool isOpen;
+    Song song;
+
+    void Start()
+    {
+        song = GameObject.FindGameObjectWithTag("Song").GetComponent<Song>();
+    }
 
     void Update()
     {
@@ -29,26 +34,44 @@ public class ChordCreator : MonoBehaviour
         else { anyChordsDragging = false; }
 
         //Si lo hay, modo asesino
-        if(anyChordsDragging)
-        {
-            chordDeleter.SetActive(true);
-        }
-        else { chordDeleter.SetActive(false); }
+
+        chordCreator.SetBool("Dragging", anyChordsDragging);
+        
+
     }
     public void CreateChord(int nDegree)
     {
-        Chord newChord = Instantiate(chordPrefab, chordsContainer.transform).GetComponent<Chord>();
-        newChord.degree = nDegree;
-        newChord.rectTransform.anchoredPosition += Vector2.right * (newChord.degree - 1) * (newChord.rectTransform.rect.width + 20) + Vector2.down * 100;
+        foreach(Chord chord in song.chordsOnTheTable)
+        {
+            if (chord.degree == nDegree)
+            {
+                chord.gameObject.GetComponent<Animator>().SetTrigger("alreadyThere");
+                return;
+            }
+
+        }
+            Chord newChord = Instantiate(chordPrefab, chordsContainer.transform).GetComponent<Chord>();
+            newChord.degree = nDegree;
+            newChord.rectTransform.anchoredPosition += Vector2.right * (newChord.degree - 1) * (newChord.rectTransform.rect.width + 20) + Vector2.down * 100;
     }
 
-    public void AnimateCross(bool isOn)
+    public void SetIsOpen(bool nIsOpen)
     {
-        crossGraphic.SetBool("ChordCreatorOpen", isOn);
+        chordCreator.SetBool("ChordCreatorOpen", nIsOpen);
+    }
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "Chord")
+        {
+            chordCreator.SetBool("Deleting", true);
+        }
     }
 
-    public void AnimateAddChordButtons(bool isOn)
+    void OnTriggerExit2D(Collider2D other)
     {
-        addChordButtons.SetBool("ChordPanelOpen", isOn);
+        if (other.gameObject.tag == "Chord")
+        {
+            chordCreator.SetBool("Deleting", false);
+        }
     }
 }
