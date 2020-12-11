@@ -3,12 +3,12 @@ ScriptsOnlyBuild:
     Assembly-CSharp.dll:
     - Chord
     - ChordAnimations
+    - ChordCreator
     - Debugging
     - Destroy
     - Instrumento
     - PanelOpener
     - PatternEditorCell
-    - PatternEditorOpener
     - PatternPreviewSq
     - PatternSaver
     - SavedPattern
@@ -17,6 +17,7 @@ ScriptsOnlyBuild:
     - Synth
     - TryScript
     - UIElementDragger
+    - Variant
     Unity.2D.Tilemap.Editor.dll:
     - UnityEditor.Tilemaps.GridPaintingState
     - UnityEditor.Tilemaps.GridPaletteBrushes
@@ -33,8 +34,11 @@ ScriptsOnlyBuild:
     UnityEditor.Graphs.dll:
     - UnityEditor.Graphs.AnimationBlendTree.Graph
     - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
     - UnityEditor.Graphs.AnimationStateMachine.Graph
     - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.StateMachineNode
+    - UnityEditor.Graphs.AnimationStateMachine.StateNode
     - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
@@ -52,13 +56,12 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.Image
     - UnityEngine.UI.Mask
     - UnityEngine.UI.ScrollRect
-    - UnityEngine.UI.Scrollbar
     - UnityEngine.UI.Slider
     - UnityEngine.UI.Text
     - UnityEngine.UI.Toggle
     - UnityEngine.UI.ToggleGroup
   sceneClasses:
-    Assets/Scenes/SampleScene.unity:
+    Assets/Scenes/Main Screen.unity:
     - Class: 1
       Script: {instanceID: 0}
     - Class: 4
@@ -72,6 +75,10 @@ ScriptsOnlyBuild:
     - Class: 48
       Script: {instanceID: 0}
     - Class: 49
+      Script: {instanceID: 0}
+    - Class: 50
+      Script: {instanceID: 0}
+    - Class: 58
       Script: {instanceID: 0}
     - Class: 74
       Script: {instanceID: 0}
@@ -106,11 +113,7 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 12112}
     - Class: 114
-      Script: {instanceID: 12160}
-    - Class: 114
       Script: {instanceID: 12362}
-    - Class: 114
-      Script: {instanceID: 12446}
     - Class: 114
       Script: {instanceID: 12464}
     - Class: 114
@@ -144,19 +147,23 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 14446}
     - Class: 114
-      Script: {instanceID: 14652}
+      Script: {instanceID: 14508}
     - Class: 114
-      Script: {instanceID: 14714}
+      Script: {instanceID: 14654}
     - Class: 114
-      Script: {instanceID: 14736}
+      Script: {instanceID: 14716}
     - Class: 114
-      Script: {instanceID: 14774}
+      Script: {instanceID: 14738}
     - Class: 114
-      Script: {instanceID: 14808}
+      Script: {instanceID: 14776}
     - Class: 114
-      Script: {instanceID: 14812}
+      Script: {instanceID: 14810}
     - Class: 114
-      Script: {instanceID: 14830}
+      Script: {instanceID: 14814}
+    - Class: 114
+      Script: {instanceID: 14832}
+    - Class: 114
+      Script: {instanceID: 147758}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -210,7 +217,7 @@ ScriptsOnlyBuild:
     className: Button
   - hash:
       serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+      Hash: 75603829ee279915484a36b5c6c248dc
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: ChordAnimations
@@ -270,7 +277,7 @@ ScriptsOnlyBuild:
     className: ArmModel
   - hash:
       serializedVersion: 2
-      Hash: 7568499a412124ec7af73987a3967bb4
+      Hash: 134322c9293c1896357cce271b819ce4
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: UIElementDragger
@@ -420,7 +427,7 @@ ScriptsOnlyBuild:
     className: AnimationPlayableAsset
   - hash:
       serializedVersion: 2
-      Hash: 235a1e8275c5d1ab2a1c0f017d90e1b5
+      Hash: 494eeadf255ab8f948f2d8e03ea3710c
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PanelOpener
@@ -474,7 +481,7 @@ ScriptsOnlyBuild:
     className: TMP_SpriteAsset
   - hash:
       serializedVersion: 2
-      Hash: c8f3e52bd578ccb5bcd2daf8d75b6eb7
+      Hash: 55ab2b4a63f274d78ad5668e47a950f5
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: SavedPattern
@@ -510,7 +517,7 @@ ScriptsOnlyBuild:
     className: ScrollRect
   - hash:
       serializedVersion: 2
-      Hash: 809cc0097faf9e96b60651bb925232e2
+      Hash: dd0b45cd3ea3dc58e5c519e94bf77487
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Chord
@@ -654,7 +661,7 @@ ScriptsOnlyBuild:
     className: NetworkBehaviour
   - hash:
       serializedVersion: 2
-      Hash: 389e823570b32dcf9010bf27ca829336
+      Hash: b0578711649ebd1c8a48df4cb7ea7f1f
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PatternEditorCell
@@ -666,7 +673,7 @@ ScriptsOnlyBuild:
     className: TextMeshProUGUI
   - hash:
       serializedVersion: 2
-      Hash: ae09a2da89572921e8a21ef71e1e9b69
+      Hash: 97fcb01660cba502901fa2be9da3c942
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PatternEditor
@@ -714,7 +721,7 @@ ScriptsOnlyBuild:
     className: NetworkDiscovery
   - hash:
       serializedVersion: 2
-      Hash: 638ad408447a15f7633fed03ac8c102d
+      Hash: adc6fac8b0540395b29f1931c4e1acc0
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PatternSaver
@@ -742,6 +749,12 @@ ScriptsOnlyBuild:
     assemblyName: com.unity.multiplayer-hlapi.Runtime.dll
     namespaceName: UnityEngine.Networking
     className: NetworkAnimator
+  - hash:
+      serializedVersion: 2
+      Hash: fe6d895a390fc2313f5092d2b1c1ab53
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: ChordCreator
   - hash:
       serializedVersion: 2
       Hash: a2612813f45d0ced02c3e4bc9dbea8b4
@@ -858,7 +871,7 @@ ScriptsOnlyBuild:
     className: PatternPreviewSq
   - hash:
       serializedVersion: 2
-      Hash: 0bd59e03072956532fe64438a460fb86
+      Hash: dbe465f45d10f86784fe3ecf8e41e6e3
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Song
@@ -868,7 +881,19 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
+  - hash:
+      serializedVersion: 2
+      Hash: 302935646b47123972df2cb98253c08d
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Variant
+  - hash:
+      serializedVersion: 2
+      Hash: 6a7549cd3e4fff5982f2fd79e2d8914f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: CellGrid
   platform: 9
   scenePathNames:
-  - Assets/Scenes/SampleScene.unity
-  playerPath: C:/Users/paper/Desktop/Unity broh/Chordia/Builds
+  - Assets/Scenes/Main Screen.unity
+  playerPath: C:/Users/paper/Desktop/Unity broh/Chordia/Chordia/Build-iOS

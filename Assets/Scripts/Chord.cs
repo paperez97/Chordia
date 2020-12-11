@@ -26,10 +26,11 @@ public class Chord : MonoBehaviour
     public Vector2 swipe;
     public bool dragging;
     bool dragged;
-    RectTransform rectTrasnform;
+    public RectTransform rectTransform;
     public int numOptions = 4;
     public bool pressed;
     Vector3 mouseDownPos;
+    public bool isExpanded;
 
     //Chord
     public Song song;
@@ -44,14 +45,15 @@ public class Chord : MonoBehaviour
     {
         //Chord
         defaultScaleChordType = Music.triad;
+        scaleChordType = defaultScaleChordType;
         song = GameObject.FindGameObjectWithTag("Song").GetComponent<Song>();
         song.chordsOnTheTable.Add(this);
         scaleChordTypes = new int[][] { Music.sus4, Music.seventh, Music.sus2, Music.triad };
-        rectTrasnform = gameObject.GetComponent<RectTransform>();
-        UpdateChord();
-
+        
         //Design
         ChangeColor(Music.DegreeColor(degree));
+
+        UpdateChord();
     }
 
     void Update()
@@ -63,25 +65,27 @@ public class Chord : MonoBehaviour
             offset = - mouseDownPos + transform.position;
         }
 
+        
         if (dragging)
         {
             dragged = true;
             transform.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y) + offset;
+            if(deleting)
+            {
+                ChangeColor(Color.red);
+            }
+            else
+            {
+                ChangeColor(Music.DegreeColor(degree));
+            }
         }
-
-        if(dragging && deleting)
+        else
         {
-            ChangeColor(Color.red);
-        }
-        else if(dragging && !deleting)
-        {
-            ChangeColor(Music.DegreeColor(degree));
-        }
-
-        if (!dragging && deleting)
-        {
-            Destroy(gameObject);
-            song.chordsOnTheTable.Remove(this);
+            if (deleting)
+            {
+                Destroy(gameObject);
+                song.chordsOnTheTable.Remove(this);
+            }
         }
 
         if(pressed)
@@ -89,10 +93,19 @@ public class Chord : MonoBehaviour
             swipe = Input.mousePosition - mouseDownPos;
         }
 
+        //Variantes
+        if (pressed && swipe.magnitude > 3 && !dragging)
+        {
+            isExpanded = true;
+        }
+        else { isExpanded = false; }
+        
+        //Que no se salga
+        rectTransform.anchoredPosition = new Vector2(Mathf.Clamp(rectTransform.anchoredPosition.x, 0, transform.parent.GetComponent<RectTransform>().rect.width), Mathf.Clamp(rectTransform.anchoredPosition.y, -transform.parent.GetComponent<RectTransform>().rect.height, 0));
 
     }
 
-    void UpdateChord()
+    public void UpdateChord()
     {
         //Qué grado es? (I, III, IV...)
         degreeText.text = Music.ToRomanNumerals(degree);

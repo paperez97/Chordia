@@ -36,10 +36,16 @@ public class SavedPattern : MonoBehaviour
 
         if(isDefault)
         {
-            AddToPattern(1, 6);
-            AddToPattern(2, 7);
-            AddToPattern(3, 8);
-            beats = 4;
+            AddToPattern(1, 0);
+            AddToPattern(1, 3);
+            AddToPattern(2, 4);
+            AddToPattern(3, 5);
+            AddToPattern(4, 6);
+            AddToPattern(5, 7);
+            AddToPattern(6, 5);
+            AddToPattern(7, 6);
+            AddToPattern(8, 7);
+            beats = 8;
         }
         toggle.group = transform.parent.gameObject.GetComponent<ToggleGroup>();
         toggle.isOn = true;

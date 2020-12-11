@@ -36,6 +36,11 @@ public class Song : MonoBehaviour
     public void ChangeKey(int newKey)
     {
         key = newKey;
+        scale = Music.NotesOfScale(key, scaleType);
+        foreach(Chord chord in chordsOnTheTable)
+        {
+            chord.UpdateChord();
+        }
     }
     public void ChangeTempo(float newTempo)
     {
@@ -70,11 +75,13 @@ public class Song : MonoBehaviour
                 scaleType = Music.escalaLocria;
                 break;
         }
-    }
-    public void RefreshScale()
-    {
         scale = Music.NotesOfScale(key, scaleType);
+        foreach (Chord chord in chordsOnTheTable)
+        {
+            chord.UpdateChord();
+        }
     }
+
     public void ChangeSwing (bool nSwing)
     {
         swing = nSwing;
@@ -105,7 +112,7 @@ public class Song : MonoBehaviour
     void Start()
     {
         stepPattern = 0;
-        ChangeKey(0);
+        key = 0;
         ChangeTempo(200);
         ChangeScaleType(0);
         ChangeSwing(false);
