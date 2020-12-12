@@ -39,7 +39,7 @@ public class PatternEditorCell : MonoBehaviour
 
     void Update()
     {
-        playing.SetActive(song.stepPattern == column);
+        playing.SetActive(song.stepPattern == (column));
         lowlight.SetActive(column > song.savedPattern.beats - 1);
     }
 

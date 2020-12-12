@@ -17,12 +17,11 @@ public class Song : MonoBehaviour
     public int stepPattern;
     public float tempo;
     float refDuration;
-    private float next = 0f;
+    private float next = 0;
     public bool swing;
     float duration1;
     float duration2;
     float usingDuration;
-    public List<int> first;
 
     //Instrument
     public Instrumento instrumento;
@@ -81,7 +80,6 @@ public class Song : MonoBehaviour
             chord.UpdateChord();
         }
     }
-
     public void ChangeSwing (bool nSwing)
     {
         swing = nSwing;
@@ -94,7 +92,6 @@ public class Song : MonoBehaviour
     {
         savedPattern = nPattern;
     }
-
     public void ChangeActiveChord(Chord nChord)
     {
         if (activeChord != null)
@@ -103,15 +100,28 @@ public class Song : MonoBehaviour
         }
         activeChord = nChord;
     }
-
     public void ChangeBeats(float nBeats)
     {
         savedPattern.beats = nBeats;
     }
+    public static float Mod(float a, float b)
+    {
+        float c = a % b;
+        if ((c < 0 && b > 0) || (c > 0 && b < 0))
+        {
+            c += b;
+        }
+        return c;
+    }
+
+    public void TocaNotaRandom()
+    {
+        instrumento.TocarNotas(new List<int> { 15 });
+    }
 
     void Start()
     {
-        stepPattern = 0;
+        stepPattern = -1;
         key = 0;
         ChangeTempo(200);
         ChangeScaleType(0);
@@ -122,18 +132,17 @@ public class Song : MonoBehaviour
 
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        first = savedPattern.pattern[0];
         //Cada pulso
 
         if (Time.time > next && activeChord != null && activeChord.chord.Count != 0)
         {
-            //Incrementamos pattern
-            stepPattern ++;
+            //Avanza stepPattern, y lo vuelve a 0 si se pasa de beats
+            stepPattern++;
             if (stepPattern >= savedPattern.beats) { stepPattern = 0; }
 
-            //Segundo necesitamos los ints de las teclas del telcado que tocar
+            //necesitamos los ints de las teclas del telcado que tocar
             List<int> teclasAcorde = Music.TeclasOfChord(activeChord.chord);
 
             //Metemos a teclasATocar las teclas que requiere este stepPattern
@@ -169,7 +178,6 @@ public class Song : MonoBehaviour
             {
                 next = Time.time + refDuration;
             }
-
         }
     }
 }
