@@ -9,25 +9,24 @@ public class PatternPreviewSq : MonoBehaviour
     public int column;
     public int row;
     public SavedPattern savedPattern;
-    Image image;
+    public Image image;
 
     void Start()
     {
-        image = GetComponent<Image>();
         image.color = new Color(1, 1, 1, 0);
-
-    }
-
-    void Update()
-    {
         if (savedPattern.pattern[column].Exists(element => element == row))
         {
-            image.color = new Color(1, 1, 1, 0.5f);
+            TurnOn();
         }
-        else
-        {
-            image.color = new Color(1, 1, 1, 0);
-        }
+    }
 
+    public void TurnOn()
+    {
+        image.color = new Color(1, 1, 1, 0.5f);
+    }
+
+    public void TurnOff()
+    {
+        image.color = new Color(1, 1, 1, 0);
     }
 }

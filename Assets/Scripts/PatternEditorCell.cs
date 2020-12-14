@@ -7,7 +7,7 @@ public class PatternEditorCell : MonoBehaviour
 {
     public int column;
     public int row;
-    Toggle toggle;
+    public Toggle toggle;
     public Song song;
     public GameObject playing;
     public GameObject lowlight;
@@ -21,11 +21,13 @@ public class PatternEditorCell : MonoBehaviour
         {
             if (!song.savedPattern.pattern[column].Exists(element => element == row))
              { song.savedPattern.pattern[column].Add(row); }
+            song.savedPattern.sqPreviewGrid.GetChild((8 - row) * 8 + column).gameObject.GetComponent<PatternPreviewSq>().TurnOn();
 
         }
         else
         {
             song.savedPattern.pattern[column].Remove(row);
+            song.savedPattern.sqPreviewGrid.GetChild((8 - row) * 8 + column).gameObject.GetComponent<PatternPreviewSq>().TurnOff();
         }
 
 
@@ -33,7 +35,6 @@ public class PatternEditorCell : MonoBehaviour
 
     void Start()
     {
-        toggle = GetComponent<Toggle>();
         milestone.SetActive(row % 3 == 0);
     }
 
@@ -45,15 +46,6 @@ public class PatternEditorCell : MonoBehaviour
 
     public void RefreshToggle()
     {
-
-            if (song.savedPattern.pattern[column].Exists(element => element == row))
-            {
-                toggle.isOn = true;
-            }
-            else
-            {
-                toggle.isOn = false;
-            }
-
+        toggle.isOn = song.savedPattern.pattern[column].Exists(element => element == row);
     }
 }

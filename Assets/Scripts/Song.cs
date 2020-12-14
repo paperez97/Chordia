@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.Events;
 
 public class Song : MonoBehaviour
 {
@@ -30,6 +31,11 @@ public class Song : MonoBehaviour
     public List<int> teclasATocar = new List<int>();
     List<float> frecuenciasATocar = new List<float>();
 
+    //Behaviour
+    public PatternEditor patternEditor;
+
+    //Events
+    public UnityEvent OnPatternChange;
 
     //Methods
     public void ChangeKey(int newKey)
@@ -91,6 +97,7 @@ public class Song : MonoBehaviour
     public void ChangePattern (SavedPattern nPattern)
     {
         savedPattern = nPattern;
+        patternEditor.Refresh();
     }
     public void ChangeActiveChord(Chord nChord)
     {

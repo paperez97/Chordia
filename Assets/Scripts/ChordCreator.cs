@@ -9,7 +9,7 @@ public class ChordCreator : MonoBehaviour
     GameObject newChord;
     public GameObject chordsContainer;
     public bool anyChordsDragging;
-    public Animator chordCreator;
+    public Animator animator;
     public Toggle chordCreatorToggle;
     public bool isOpen;
     Song song;
@@ -21,23 +21,7 @@ public class ChordCreator : MonoBehaviour
 
     void Update()
     {
-        //Ver si hay algún chord dragging
-        bool accum = false;
-        foreach(Transform chord in chordsContainer.transform)
-        {
-            if(chord.gameObject.GetComponent<Chord>().dragging)
-            {
-                accum = true;
-            }
-        }
-        if (accum) { anyChordsDragging = true; }
-        else { anyChordsDragging = false; }
-
-        //Si lo hay, modo asesino
-
-        chordCreator.SetBool("Dragging", anyChordsDragging);
-        
-
+        animator.SetBool("Dragging", anyChordsDragging);
     }
     public void CreateChord(int nDegree)
     {
@@ -57,13 +41,13 @@ public class ChordCreator : MonoBehaviour
 
     public void SetIsOpen(bool nIsOpen)
     {
-        chordCreator.SetBool("ChordCreatorOpen", nIsOpen);
+        animator.SetBool("ChordCreatorOpen", nIsOpen);
     }
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.tag == "Chord")
         {
-            chordCreator.SetBool("Deleting", true);
+            animator.SetBool("Deleting", true);
         }
     }
 
@@ -71,7 +55,7 @@ public class ChordCreator : MonoBehaviour
     {
         if (other.gameObject.tag == "Chord")
         {
-            chordCreator.SetBool("Deleting", false);
+            animator.SetBool("Deleting", false);
         }
     }
 }

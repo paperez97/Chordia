@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using System;
 using UnityEngine.UI;
 
-public class Chord : MonoBehaviour
+public class Chord : EventTrigger
 {
     //Design
     public Image nucleus;
@@ -15,9 +15,9 @@ public class Chord : MonoBehaviour
     public Text degreeText;
     public Text chordNameText;
     public GameObject variants;
-    
+    public ChordCreator chordCreator;
+
     //Behaviour
-    public UIElementDragger dragger;
     public bool activated = false;
     public bool deleting = false;
     public float redness = 0;
@@ -26,7 +26,7 @@ public class Chord : MonoBehaviour
     Vector2 offset;
     public Vector2 swipe;
     public bool dragging;
-    bool dragged;
+    public bool dragged;
     public RectTransform rectTransform;
     public int numOptions = 4;
     public bool pressed;
@@ -41,6 +41,9 @@ public class Chord : MonoBehaviour
     public int[][] scaleChordTypes;
     public int[] defaultScaleChordType;
 
+    //Animation
+    public Animator animator;
+
     //Methods
     void Start()
     {
@@ -48,13 +51,12 @@ public class Chord : MonoBehaviour
         defaultScaleChordType = Music.triad;
         scaleChordType = defaultScaleChordType;
         song = GameObject.FindGameObjectWithTag("Song").GetComponent<Song>();
+        chordCreator = GameObject.FindGameObjectWithTag("ChordCreator").GetComponent<ChordCreator>();
         song.chordsOnTheTable.Add(this);
         scaleChordTypes = new int[][] { Music.sus4, Music.seventh, Music.sus2, Music.triad };
 
         //Design
         color = Music.DegreeColor(degree);
-        Debug.Log(Music.DegreeColor(degree).r);
-
         UpdateChord();
     }
 
@@ -64,6 +66,8 @@ public class Chord : MonoBehaviour
         if (pressed && (Time.time - lastPressedTime > lag) && mouseDownPos == Input.mousePosition)
         {
             dragging = true;
+            animator.SetBool("dragging", true);
+            chordCreator.anyChordsDragging = true;
             offset = - mouseDownPos + transform.position;
         }
 
@@ -92,12 +96,10 @@ public class Chord : MonoBehaviour
         }
 
         //Variantes
-        if (pressed && swipe.magnitude > 3 && !dragging)
-        {
-            isExpanded = true;
-        }
-        else { isExpanded = false; }
-        
+        isExpanded = pressed && swipe.magnitude > 5 && !dragging;
+        animator.SetBool("isExpanded", isExpanded);
+       
+
         //Que no se salga
         rectTransform.anchoredPosition = new Vector2(Mathf.Clamp(rectTransform.anchoredPosition.x, 0, transform.parent.GetComponent<RectTransform>().rect.width), Mathf.Clamp(rectTransform.anchoredPosition.y, -transform.parent.GetComponent<RectTransform>().rect.height, 0));
 
@@ -138,10 +140,11 @@ public class Chord : MonoBehaviour
             }
             else
             {
-            activated = true;
-            scaleChordType = defaultScaleChordType;
-            UpdateChord();
-            song.ChangeActiveChord(this);
+                activated = true;
+                scaleChordType = defaultScaleChordType;
+                UpdateChord();
+                song.ChangeActiveChord(this);
+                animator.SetBool("isActive", true);
             }
         }
         //si hay swipe
@@ -151,6 +154,7 @@ public class Chord : MonoBehaviour
             song.ChangeActiveChord(this);
             scaleChordType = scaleChordTypes[option];
             activated = true;
+            animator.SetBool("isActive", true);
             UpdateChord();
         }
     }
@@ -161,6 +165,7 @@ public class Chord : MonoBehaviour
         scaleChordType = defaultScaleChordType;
         UpdateChord();
         song.activeChord = null;
+        animator.SetBool("isActive", false);
     }
 
     public void ChordPressed()
@@ -172,8 +177,10 @@ public class Chord : MonoBehaviour
 
     public void ChordLifted()
     {
-        dragging = false;
         pressed = false;
+        dragging = false;
+        animator.SetBool("dragging", false);
+        chordCreator.anyChordsDragging = false;
         if (dragged) { dragged = false; }
         else { SetOn(SwipeOption(swipe, numOptions)); }
     }
@@ -219,18 +226,31 @@ public class Chord : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.gameObject.tag == "Bin")
+        if(other.gameObject.tag == "ChordCreator")
         {
             deleting = true;
+            animator.SetBool("deleting", true);
         }
     }
 
     void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Bin")
+        if (other.gameObject.tag == "ChordCreator")
         {
             deleting = false;
+            animator.SetBool("deleting", false);
         }
+    }
+
+    public override void OnPointerDown(PointerEventData eventData)
+    {
+        ChordPressed();
+    }
+
+
+    public override void OnPointerUp(PointerEventData eventData)
+    {
+        ChordLifted();
     }
 }
 

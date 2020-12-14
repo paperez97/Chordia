@@ -17,8 +17,4 @@ public class PatternEditorOpener : MonoBehaviour
                                             -(patternEditorRectTransform.sizeDelta.y-20) :
                                             patternEditorRectTransform.sizeDelta.y-20 ));
     }
-
-    void Start()
-    {
-    }
 }

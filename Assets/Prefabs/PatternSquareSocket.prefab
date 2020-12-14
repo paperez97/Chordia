@@ -52,7 +52,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   column: 0
   row: 0
-  chordsController: {fileID: 0}
+  savedPattern: {fileID: 0}
+  image: {fileID: 6189062735053617285}
 --- !u!222 &8489257265175483213
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -76,11 +77,13 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.25882354, g: 0.5686275, b: 0.18039216, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 0
+  m_Type: 2
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4

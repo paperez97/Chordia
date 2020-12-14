@@ -9,6 +9,7 @@ TagManager:
   - ChordsContainer
   - Chord
   - Bin
+  - ChordCreator
   layers:
   - Default
   - TransparentFX

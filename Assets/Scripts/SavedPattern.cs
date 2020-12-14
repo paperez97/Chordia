@@ -8,10 +8,11 @@ public class SavedPattern : MonoBehaviour
 
     public List<int>[] pattern;
     public float beats;
-    Song song;
+    public Song song;
     Toggle toggle;
     public bool isDefault;
-
+    public Transform sqPreviewGrid;
+    
     public void SetBeats(float newBeats)
     {
         beats = newBeats;
@@ -49,15 +50,13 @@ public class SavedPattern : MonoBehaviour
         }
         toggle.group = transform.parent.gameObject.GetComponent<ToggleGroup>();
         toggle.isOn = true;
+        ActivatePattern();
+
     }
 
-    private void Update()
+    public void ActivatePattern()
     {
-        if(toggle.isOn)
-        {
-            song.ChangePattern(this);
-            song.ChangeBeats(beats);
-        }
+         song.ChangePattern(this); 
     }
 
     public void AddToPattern(int beat, int note)

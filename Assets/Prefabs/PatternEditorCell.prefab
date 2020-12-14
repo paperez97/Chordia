@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -59,7 +59,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.1137255, g: 0.13333334, b: 0.13333334, a: 0.5372549}
-    m_HighlightedColor: {r: 0, g: 0.40000004, b: 0, a: 0.4745098}
+    m_HighlightedColor: {r: 0.1137255, g: 0.13333334, b: 0.13333334, a: 0.4745098}
     m_PressedColor: {r: 0.4253738, g: 0.745283, b: 0.4253738, a: 0.48235294}
     m_SelectedColor: {r: 0.10980393, g: 0.13333334, b: 0.13333334, a: 0.79607844}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -111,6 +111,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   column: 0
   row: 0
+  toggle: {fileID: 112513930163107101}
   song: {fileID: 0}
   playing: {fileID: 5818498738552647846}
   lowlight: {fileID: 7316896801798453776}
