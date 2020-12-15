@@ -1,24 +1,21 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
-    - CellGrid
     - Chord
-    - ChordAnimations
     - ChordCreator
     - Debugging
-    - Destroy
     - Instrumento
-    - PanelOpener
     - PatternEditor
     - PatternEditorCell
     - PatternPreviewSq
     - PatternSaver
+    - RadialLayout
     - SavedPattern
     - SliderValue
     - Song
     - Synth
     - TryScript
-    - UIElementDragger
+    - UnityEngine.UI.AutoExpandGridLayoutGroup
     - Variant
     Unity.2D.Tilemap.Editor.dll:
     - UnityEditor.Tilemaps.GridPaintingState
@@ -33,6 +30,14 @@ ScriptsOnlyBuild:
     - TMPro.TMP_Settings
     - TMPro.TMP_SpriteAsset
     - TMPro.TMP_StyleSheet
+    UnityEditor.Graphs.dll:
+    - UnityEditor.Graphs.AnimationBlendTree.Graph
+    - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
+    - UnityEditor.Graphs.AnimationStateMachine.Graph
+    - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.StateNode
+    - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
     - UnityEditor.TestTools.TestRunner.TestListCacheData
@@ -46,6 +51,7 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.Dropdown
     - UnityEngine.UI.GraphicRaycaster
     - UnityEngine.UI.GridLayoutGroup
+    - UnityEngine.UI.HorizontalLayoutGroup
     - UnityEngine.UI.Image
     - UnityEngine.UI.Mask
     - UnityEngine.UI.ScrollRect
@@ -54,7 +60,7 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.Toggle
     - UnityEngine.UI.ToggleGroup
   sceneClasses:
-    Assets/Scenes/Main Screen.unity:
+    Assets/Scenes/Phone version.unity:
     - Class: 1
       Script: {instanceID: 0}
     - Class: 4
@@ -88,81 +94,77 @@ ScriptsOnlyBuild:
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 11864}
-    - Class: 114
-      Script: {instanceID: 11866}
-    - Class: 114
-      Script: {instanceID: 11868}
-    - Class: 114
       Script: {instanceID: 11870}
     - Class: 114
       Script: {instanceID: 11872}
     - Class: 114
-      Script: {instanceID: 11886}
+      Script: {instanceID: 11874}
     - Class: 114
-      Script: {instanceID: 11900}
+      Script: {instanceID: 11876}
     - Class: 114
-      Script: {instanceID: 12104}
+      Script: {instanceID: 11878}
     - Class: 114
-      Script: {instanceID: 12112}
+      Script: {instanceID: 11906}
     - Class: 114
-      Script: {instanceID: 12200}
+      Script: {instanceID: 11916}
     - Class: 114
-      Script: {instanceID: 12364}
+      Script: {instanceID: 12368}
     - Class: 114
-      Script: {instanceID: 12466}
+      Script: {instanceID: 12470}
     - Class: 114
-      Script: {instanceID: 12628}
+      Script: {instanceID: 12680}
     - Class: 114
-      Script: {instanceID: 12676}
+      Script: {instanceID: 12828}
     - Class: 114
-      Script: {instanceID: 12824}
+      Script: {instanceID: 12872}
     - Class: 114
-      Script: {instanceID: 12868}
+      Script: {instanceID: 12886}
     - Class: 114
-      Script: {instanceID: 12882}
+      Script: {instanceID: 12940}
     - Class: 114
-      Script: {instanceID: 12936}
+      Script: {instanceID: 13172}
     - Class: 114
-      Script: {instanceID: 13166}
+      Script: {instanceID: 13176}
     - Class: 114
-      Script: {instanceID: 13170}
+      Script: {instanceID: 13500}
     - Class: 114
-      Script: {instanceID: 13494}
+      Script: {instanceID: 13630}
     - Class: 114
-      Script: {instanceID: 13624}
+      Script: {instanceID: 13818}
     - Class: 114
-      Script: {instanceID: 13816}
+      Script: {instanceID: 13822}
     - Class: 114
-      Script: {instanceID: 13834}
+      Script: {instanceID: 13840}
     - Class: 114
-      Script: {instanceID: 14072}
+      Script: {instanceID: 14078}
     - Class: 114
-      Script: {instanceID: 14150}
+      Script: {instanceID: 14156}
     - Class: 114
-      Script: {instanceID: 14202}
+      Script: {instanceID: 14208}
     - Class: 114
-      Script: {instanceID: 14326}
+      Script: {instanceID: 14332}
     - Class: 114
-      Script: {instanceID: 14402}
+      Script: {instanceID: 14408}
     - Class: 114
-      Script: {instanceID: 14450}
+      Script: {instanceID: 14456}
     - Class: 114
-      Script: {instanceID: 14512}
+      Script: {instanceID: 14518}
     - Class: 114
-      Script: {instanceID: 14658}
+      Script: {instanceID: 14664}
     - Class: 114
-      Script: {instanceID: 14720}
+      Script: {instanceID: 14726}
     - Class: 114
-      Script: {instanceID: 14742}
+      Script: {instanceID: 14748}
     - Class: 114
-      Script: {instanceID: 14780}
+      Script: {instanceID: 14774}
     - Class: 114
-      Script: {instanceID: 14814}
+      Script: {instanceID: 14788}
     - Class: 114
-      Script: {instanceID: 14818}
+      Script: {instanceID: 14822}
     - Class: 114
-      Script: {instanceID: 14836}
+      Script: {instanceID: 14826}
+    - Class: 114
+      Script: {instanceID: 14844}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -216,16 +218,16 @@ ScriptsOnlyBuild:
     className: GridLayoutGroup
   - hash:
       serializedVersion: 2
-      Hash: 75603829ee279915484a36b5c6c248dc
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: ChordAnimations
-  - hash:
-      serializedVersion: 2
       Hash: 4bc4346a71a8df53a6b106f68ef3a190
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
     className: CanvasScaler
+  - hash:
+      serializedVersion: 2
+      Hash: b16e31f878673ba13364e74e96f77fd8
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: RadialLayout
   - hash:
       serializedVersion: 2
       Hash: f40fedccd4adbc76605bea6d67537e4b
@@ -276,22 +278,10 @@ ScriptsOnlyBuild:
     className: ArmModel
   - hash:
       serializedVersion: 2
-      Hash: 134322c9293c1896357cce271b819ce4
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: UIElementDragger
-  - hash:
-      serializedVersion: 2
       Hash: c3d3430df9e3ea95e3e3d587961390fb
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: GroupTrack
-  - hash:
-      serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: Destroy
   - hash:
       serializedVersion: 2
       Hash: a5781dc71a671b1ad2b38de19f24b71f
@@ -432,12 +422,6 @@ ScriptsOnlyBuild:
     className: AnimationPlayableAsset
   - hash:
       serializedVersion: 2
-      Hash: 494eeadf255ab8f948f2d8e03ea3710c
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: PanelOpener
-  - hash:
-      serializedVersion: 2
       Hash: aba7b2852ef61d175dd9602e7723d5e5
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
@@ -486,7 +470,7 @@ ScriptsOnlyBuild:
     className: TMP_SpriteAsset
   - hash:
       serializedVersion: 2
-      Hash: 55ab2b4a63f274d78ad5668e47a950f5
+      Hash: ad4698fc877210bbfa9ef25c00b7fbc0
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: SavedPattern
@@ -522,13 +506,19 @@ ScriptsOnlyBuild:
     className: NetworkTransformVisualizer
   - hash:
       serializedVersion: 2
+      Hash: f40efc27a1d6d6f379df2e5dcefb031c
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: GridHackyScript
+  - hash:
+      serializedVersion: 2
       Hash: 040dd48e3a027d5424519a5fa2009df4
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
     className: ScrollRect
   - hash:
       serializedVersion: 2
-      Hash: dd0b45cd3ea3dc58e5c519e94bf77487
+      Hash: 033261f24aa8ec4751a4da1c36fa240a
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Chord
@@ -672,7 +662,7 @@ ScriptsOnlyBuild:
     className: NetworkBehaviour
   - hash:
       serializedVersion: 2
-      Hash: b0578711649ebd1c8a48df4cb7ea7f1f
+      Hash: 3aae22871ba3de96bc2578ef8fa5292c
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PatternEditorCell
@@ -684,7 +674,7 @@ ScriptsOnlyBuild:
     className: TextMeshProUGUI
   - hash:
       serializedVersion: 2
-      Hash: 97fcb01660cba502901fa2be9da3c942
+      Hash: e8ca378046dc33ddbeb147d226151280
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PatternEditor
@@ -732,7 +722,7 @@ ScriptsOnlyBuild:
     className: NetworkDiscovery
   - hash:
       serializedVersion: 2
-      Hash: adc6fac8b0540395b29f1931c4e1acc0
+      Hash: 35b99e3899e4fd96d2b2e05fd31d6f3a
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PatternSaver
@@ -762,7 +752,7 @@ ScriptsOnlyBuild:
     className: NetworkAnimator
   - hash:
       serializedVersion: 2
-      Hash: fe6d895a390fc2313f5092d2b1c1ab53
+      Hash: e06135883b1aeb45a6845eda5e07f9e3
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: ChordCreator
@@ -858,6 +848,12 @@ ScriptsOnlyBuild:
     className: SignalEmitter
   - hash:
       serializedVersion: 2
+      Hash: f7a63fb3b7a0544fd67f636b8a494976
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: UnityEngine.UI
+    className: AutoExpandGridLayoutGroup
+  - hash:
+      serializedVersion: 2
       Hash: 0c05f2bfb402def3f0a85a62a2323c7f
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
@@ -876,13 +872,13 @@ ScriptsOnlyBuild:
     className: ToggleGroup
   - hash:
       serializedVersion: 2
-      Hash: d63371f492c4bbe47b198882d56a8373
+      Hash: cce3f50e2d15b6b8eb4af59e9b8cb883
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PatternPreviewSq
   - hash:
       serializedVersion: 2
-      Hash: dbe465f45d10f86784fe3ecf8e41e6e3
+      Hash: 6e59e16f8f6a0e9fd1bb6e20ad0c9e0b
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Song
@@ -894,5 +890,5 @@ ScriptsOnlyBuild:
     className: PlayableTrack
   platform: 19
   scenePathNames:
-  - Assets/Scenes/Main Screen.unity
+  - Assets/Scenes/Phone version.unity
   playerPath: C:/Users/paper/Desktop/Unity broh/Chordia/Chordia/Build-PC/Chordia.exe

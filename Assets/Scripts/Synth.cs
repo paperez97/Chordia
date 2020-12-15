@@ -80,7 +80,7 @@ public class Synth : MonoBehaviour
 
         foreach (float frequency in frequencies)
         {
-            tones.Add(new Tone(frequency, 0.5f));
+            tones.Add(new Tone(frequency, 0.2f));
         }
     }
 

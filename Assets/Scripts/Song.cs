@@ -25,9 +25,8 @@ public class Song : MonoBehaviour
     float usingDuration;
 
     //Instrument
-    public Instrumento instrumento;
     public Synth synth;
-    public string interprete;
+    public Instrumento interprete;
     public List<int> teclasATocar = new List<int>();
     List<float> frecuenciasATocar = new List<float>();
 
@@ -90,7 +89,7 @@ public class Song : MonoBehaviour
     {
         swing = nSwing;
     }
-    public void ChangeInterprete (string nInterprete)
+    public void ChangeInterprete (Instrumento nInterprete)
     {
         interprete = nInterprete;
     }
@@ -121,11 +120,6 @@ public class Song : MonoBehaviour
         return c;
     }
 
-    public void TocaNotaRandom()
-    {
-        instrumento.TocarNotas(new List<int> { 15 });
-    }
-
     void Start()
     {
         stepPattern = -1;
@@ -133,7 +127,7 @@ public class Song : MonoBehaviour
         ChangeTempo(200);
         ChangeScaleType(0);
         ChangeSwing(false);
-        ChangeInterprete("Piano");
+        ChangeInterprete(interprete);
         scale = Music.NotesOfScale(key, scaleType);
         swing = false;
 
@@ -161,7 +155,7 @@ public class Song : MonoBehaviour
 
 
             //Tocamos las notas que tocan en esta parte del pattern
-            if (interprete == "Synth")
+            if (interprete.name == "Synth")
             {
                 frecuenciasATocar.Clear();
                 foreach (int tecla in teclasATocar)
@@ -170,10 +164,10 @@ public class Song : MonoBehaviour
                 }
                 synth.TocarNotas(frecuenciasATocar);
             }
-            if (interprete == "Piano")
+            else
             {
                 synth.Silence();
-                instrumento.TocarNotas(teclasATocar);
+                interprete.TocarNotas(teclasATocar);
             }
             //Calculamos cuándo será el siguiente paso de stepPattern
             if (swing)

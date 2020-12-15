@@ -33,10 +33,8 @@ ScriptsOnlyBuild:
     UnityEditor.Graphs.dll:
     - UnityEditor.Graphs.AnimationBlendTree.Graph
     - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
-    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
     - UnityEditor.Graphs.AnimationStateMachine.Graph
     - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
-    - UnityEditor.Graphs.AnimationStateMachine.StateNode
     - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
@@ -94,77 +92,77 @@ ScriptsOnlyBuild:
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
+      Script: {instanceID: 11866}
+    - Class: 114
+      Script: {instanceID: 11868}
+    - Class: 114
       Script: {instanceID: 11870}
     - Class: 114
       Script: {instanceID: 11872}
     - Class: 114
       Script: {instanceID: 11874}
     - Class: 114
-      Script: {instanceID: 11876}
+      Script: {instanceID: 11900}
     - Class: 114
-      Script: {instanceID: 11878}
+      Script: {instanceID: 11910}
     - Class: 114
-      Script: {instanceID: 11906}
+      Script: {instanceID: 12362}
     - Class: 114
-      Script: {instanceID: 11916}
+      Script: {instanceID: 12464}
     - Class: 114
-      Script: {instanceID: 12368}
+      Script: {instanceID: 12672}
     - Class: 114
-      Script: {instanceID: 12470}
+      Script: {instanceID: 12820}
     - Class: 114
-      Script: {instanceID: 12680}
+      Script: {instanceID: 12864}
     - Class: 114
-      Script: {instanceID: 12828}
+      Script: {instanceID: 12878}
     - Class: 114
-      Script: {instanceID: 12872}
+      Script: {instanceID: 12932}
     - Class: 114
-      Script: {instanceID: 12886}
+      Script: {instanceID: 13164}
     - Class: 114
-      Script: {instanceID: 12940}
+      Script: {instanceID: 13168}
     - Class: 114
-      Script: {instanceID: 13172}
+      Script: {instanceID: 13492}
     - Class: 114
-      Script: {instanceID: 13176}
+      Script: {instanceID: 13622}
     - Class: 114
-      Script: {instanceID: 13500}
+      Script: {instanceID: 13810}
     - Class: 114
-      Script: {instanceID: 13630}
+      Script: {instanceID: 13814}
     - Class: 114
-      Script: {instanceID: 13818}
+      Script: {instanceID: 13832}
     - Class: 114
-      Script: {instanceID: 13822}
+      Script: {instanceID: 14070}
     - Class: 114
-      Script: {instanceID: 13840}
+      Script: {instanceID: 14148}
     - Class: 114
-      Script: {instanceID: 14078}
+      Script: {instanceID: 14200}
     - Class: 114
-      Script: {instanceID: 14156}
+      Script: {instanceID: 14324}
     - Class: 114
-      Script: {instanceID: 14208}
+      Script: {instanceID: 14400}
     - Class: 114
-      Script: {instanceID: 14332}
+      Script: {instanceID: 14448}
     - Class: 114
-      Script: {instanceID: 14408}
+      Script: {instanceID: 14510}
     - Class: 114
-      Script: {instanceID: 14456}
+      Script: {instanceID: 14656}
     - Class: 114
-      Script: {instanceID: 14518}
+      Script: {instanceID: 14718}
     - Class: 114
-      Script: {instanceID: 14664}
+      Script: {instanceID: 14740}
     - Class: 114
-      Script: {instanceID: 14726}
+      Script: {instanceID: 14766}
     - Class: 114
-      Script: {instanceID: 14748}
+      Script: {instanceID: 14780}
     - Class: 114
-      Script: {instanceID: 14774}
+      Script: {instanceID: 14814}
     - Class: 114
-      Script: {instanceID: 14788}
+      Script: {instanceID: 14818}
     - Class: 114
-      Script: {instanceID: 14822}
-    - Class: 114
-      Script: {instanceID: 14826}
-    - Class: 114
-      Script: {instanceID: 14844}
+      Script: {instanceID: 14836}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -374,7 +372,7 @@ ScriptsOnlyBuild:
     className: PatternEditorOpener
   - hash:
       serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+      Hash: 1df5043f0424ac97346ea8f965958921
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Instrumento
@@ -878,7 +876,7 @@ ScriptsOnlyBuild:
     className: PatternPreviewSq
   - hash:
       serializedVersion: 2
-      Hash: 6e59e16f8f6a0e9fd1bb6e20ad0c9e0b
+      Hash: 4716b8609de85b1e04e523f4d75d2385
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Song
