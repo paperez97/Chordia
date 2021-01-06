@@ -7,11 +7,13 @@ public class SavedPattern : MonoBehaviour
 {
 
     public List<int>[] pattern;
+    public List<int>[] percPattern;
     public float beats;
     public Song song;
     Toggle toggle;
     public bool isDefault;
     public Transform sqPreviewGrid;
+    public Transform sqPreviewGridBass;
     
     public void SetBeats(float newBeats)
     {
@@ -33,19 +35,29 @@ public class SavedPattern : MonoBehaviour
                                     new List<int>(),
                                     new List<int>(),
                                     new List<int>() };
+
+        percPattern = new List<int>[] { new List<int>(),
+                                    new List<int>(),
+                                    new List<int>(),
+                                    new List<int>(),
+                                    new List<int>(),
+                                    new List<int>(),
+                                    new List<int>(),
+                                    new List<int>() };
+
         beats = 8;
 
         if(isDefault)
         {
+            AddToPattern(1, -1);
             AddToPattern(1, 0);
-            AddToPattern(1, 3);
-            AddToPattern(2, 4);
-            AddToPattern(3, 5);
-            AddToPattern(4, 6);
-            AddToPattern(5, 7);
-            AddToPattern(6, 5);
-            AddToPattern(7, 6);
-            AddToPattern(8, 7);
+            AddToPattern(2, 1);
+            AddToPattern(3, 2);
+            AddToPattern(4, 3);
+            AddToPattern(5, 4);
+            AddToPattern(6, 2);
+            AddToPattern(7, 3);
+            AddToPattern(8, 4);
             beats = 8;
         }
         toggle.group = transform.parent.gameObject.GetComponent<ToggleGroup>();

@@ -7,7 +7,10 @@ public class PatternEditor : MonoBehaviour
 {
     public Slider slider;
     public Transform cellGrid;
-    public List<PatternEditorCell> cells;
+    public Transform cellGridBass;
+    public Transform cellGridDrums;
+    public List<PatternEditorCell> patternCells;
+    public List<PatternEditorCell> drumCells;
     public Song song;
 
 
@@ -16,16 +19,28 @@ public class PatternEditor : MonoBehaviour
     {
         foreach (Transform cell in cellGrid)
         {
-            cells.Add(cell.gameObject.GetComponent<PatternEditorCell>());
+            patternCells.Add(cell.gameObject.GetComponent<PatternEditorCell>());
+        }
+        foreach (Transform cell in cellGridBass)
+        {
+            patternCells.Add(cell.gameObject.GetComponent<PatternEditorCell>());
+        }
+        foreach (Transform cell in cellGridDrums)
+        {
+            drumCells.Add(cell.gameObject.GetComponent<PatternEditorCell>());
         }
         Refresh();
     }
 
     public void Refresh()
     {
-        foreach (PatternEditorCell cell in cells)
+        foreach (PatternEditorCell cell in patternCells)
         {
-            cell.RefreshToggle();
+            cell.RefreshNotesToggle();
+        }
+        foreach (PatternEditorCell cell in drumCells)
+        {
+            cell.RefreshDrumsToggle();
         }
         slider.value = song.savedPattern.beats;
     }

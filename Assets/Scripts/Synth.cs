@@ -74,15 +74,21 @@ public class Synth : MonoBehaviour
     }
 
 
-    public void TocarNotas(List<float> frequencies)
+    public void TocarNotas(List<int> teclasATocar)
     {
-        tones.Clear();
-
-        foreach (float frequency in frequencies)
+        foreach (int tecla in teclasATocar)
         {
-            tones.Add(new Tone(frequency, 0.2f));
+            tones.Add(new Tone(Music.IntToFreq(tecla+12, 130f), 0.2f));
         }
     }
+    public void TocarBajos(List<int> teclasATocar)
+    {
+        foreach (int tecla in teclasATocar)
+        {
+            tones.Add(new Tone(Music.IntToFreq(tecla, 130f), 0.2f));
+        }
+    }
+
 
     public void Silence()
     {

@@ -5,6 +5,7 @@ using System;
 
 public static class Music 
 {
+
     //Acordes por semitonos
     public static int[] major = { 0, 4, 7};
     public static int[] minor = { 0, 3, 7 };
@@ -28,8 +29,8 @@ public static class Music
 
     //Notas
     public static char[] notes = { 'C', 'c', 'D', 'd', 'E', 'F', 'f', 'G', 'g', 'A', 'a', 'B' };
-    public static string[] keyboard = { "C1", "c1", "D1", "d1", "E1", "F1", "f1", "G1", "g1", "A1", "a1", "B1",
-                                   "C2", "c2", "D2", "d2", "E2", "F2", "f2", "G2", "g2", "A2", "a2", "B2",
+    public static string[] bassKeyboard = { "C1", "c1", "D1", "d1", "E1", "F1", "f1", "G1", "g1", "A1", "a1", "B1"};
+    public static string[] keyboard = {"C2", "c2", "D2", "d2", "E2", "F2", "f2", "G2", "g2", "A2", "a2", "B2",
                                    "C3", "c3", "D3", "d3", "E3", "F3", "f3", "G3", "g3", "A3", "a3", "B3"};
     //Colores
     public static Color Icolor = new Color((float)42 / 255, (float)99 / 255, (float)242 / 255);
@@ -79,15 +80,50 @@ public static class Music
         //las teclas de keyboard que pertenecen al acorde
 
         List<int> result = new List<int>();
-        foreach (string tecla in Music.keyboard)
+        if (chord.Count == 3)
         {
-            if (chord.Contains(Music.NoteToInt(tecla[0])))
+            foreach (string tecla in Music.keyboard)
             {
-                result.Add(Array.IndexOf(Music.keyboard, tecla));
+                if (chord.Contains(Music.NoteToInt(tecla[0])))
+                {
+                    result.Add(Array.IndexOf(Music.keyboard, tecla));
+                }
+            }
+        }
+        if (chord.Count == 4)
+        {
+            //PUES CAMBIAMOS LA NOTA FUNDAMENTAL  POR LA SÉPTIMA, PORQUE NO QUEREMOS QUE LA SÉPTIMA SUENE en el bajo PORQUE QUEDA MAAAL
+            //Tecla es nombre + octava ("E3"), tecla[0] coge solo el nombre de la nota ("E")
+            int highestFirst = 0;
+            foreach (string tecla in Music.keyboard)
+            {
+                if (chord.Contains(Music.NoteToInt(tecla[0])) && Music.NoteToInt(tecla[0]) != chord[3])
+                {
+                    result.Add(Array.IndexOf(Music.keyboard, tecla));
+                    if (Music.NoteToInt(tecla[0]) == chord[0])
+                    {
+                        highestFirst = result.Count - 1;
+                    }
+                }
+            }
+
+            if(Modulo(chord[3] - chord[0], 12) == 10)
+            {
+                result[highestFirst] -= 2;
+                if (result[highestFirst - 3] > 2)
+                { result[highestFirst - 3] -= 2; }
+            }
+            if (Modulo(chord[3] - chord[0], 12) == 11)
+            {
+                result[highestFirst] -= 1;
+                if (result[highestFirst - 3] > 1)
+                { result[highestFirst - 3] -= 1; }
+
             }
         }
         return result;
     }
+
     public static string TypeOfChord(List<int> notesOfChord, int[] scaleChordType)
     {   //Devuelve el tipo del acorde introducido --> (str) "m", "sus2", "M7" ...
 
@@ -161,6 +197,10 @@ public static class Music
         return referenceFreq  * Mathf.Pow(Mathf.Pow(2, 1f / 12f), note);
     }
 
+    static int Modulo(int a, int b)
+    {
+        return (Math.Abs(a * b) + a) % b;
+    }
 
     // 0   1   2   3   4   5   6   7   8    9   10  11  12
     // do  do# re  mib mi  fa  fa# sol sol# la  sib si

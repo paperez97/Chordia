@@ -96,7 +96,7 @@ public class Chord : EventTrigger
         }
 
         //Variantes
-        isExpanded = pressed && swipe.magnitude > 5 && !dragging;
+        isExpanded = pressed && swipe.magnitude > 40 && !dragging;
         animator.SetBool("isExpanded", isExpanded);
        
 
@@ -127,6 +127,7 @@ public class Chord : EventTrigger
 
         //Añadimos el menor o mayor al nombre de la fundamental
         chordNameText.text += chordType;
+        song.bajoATocar = chord[0];
     }
 
     public void SetOn(int option)
@@ -166,6 +167,7 @@ public class Chord : EventTrigger
         UpdateChord();
         song.activeChord = null;
         animator.SetBool("isActive", false);
+        song.synth.Silence();
     }
 
     public void ChordPressed()
@@ -187,7 +189,7 @@ public class Chord : EventTrigger
 
     public int SwipeOption(Vector2 swipe, int options)
     {
-        if(swipe.magnitude < 10)
+        if(swipe.magnitude < 40)
         {
             return -1;
         }

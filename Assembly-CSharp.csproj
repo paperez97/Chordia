@@ -69,6 +69,7 @@
      <Compile Include="Assets\Scripts\PatternEditorCell.cs" />
      <Compile Include="Assets\Scripts\PatternEditor.cs" />
      <Compile Include="Assets\Scripts\Debugging.cs" />
+     <Compile Include="Assets\Scripts\FPSDisplay.cs" />
      <Compile Include="Assets\Scripts\PatternSaver.cs" />
      <Compile Include="Assets\Scripts\ChordCreator.cs" />
      <Compile Include="Assets\Scripts\TryScript.cs" />
