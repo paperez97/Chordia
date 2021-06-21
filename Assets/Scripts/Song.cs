@@ -3,22 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class Song : MonoBehaviour
 {
     //Harmony
-    public Chord activeChord;
+    public ChordBlob activeChordBlob;
     public SavedPattern savedPattern;
-    public List<Chord> chordsOnTheTable = new List<Chord>();
+    public SavedPattern playingPattern;
+    public List<ChordBlob> chordBlobsOnTheTable = new List<ChordBlob>();
     public int[] scaleType;
-    public int[] scale;
-    public int key;
+    public Music.Note[] scale;
+    public Music.Note key;
+    public Text keyText;
 
     //Tempo
     public int stepPattern;
     public float tempo;
-    private float tempoUnit = 0;
+    public float tempoUnit = 0;
+    public float swingTempoUnit1;
+    public float swingTempoUnit2;
     public bool play = true;
+    public bool swing;
 
 
     //Instrument
@@ -27,11 +33,12 @@ public class Song : MonoBehaviour
     public Instrumento drums;
     public List<int> teclasATocar = new List<int>();
     public List<int> bajosATocar = new List<int>();
-    public List<int> percATocar = new List<int>();
-    public int bajoATocar;
+    public List<int> drumsATocar = new List<int>();
+    public int octaves = 2;
 
     //Behaviour
     public PatternEditor patternEditor;
+    public List<int> teclasAcorde;
 
     //Events
     public UnityEvent OnPatternChange;
@@ -42,21 +49,32 @@ public class Song : MonoBehaviour
     {
         play = isPlay;
     }
+
+    public void ChangeSwing(bool isSwing)
+    {
+        swing = isSwing;
+        Time.fixedDeltaTime = tempoUnit;
+    }
     public void ChangeKey(int newKey)
     {
-        key = newKey;
+        key = new Music.Note(newKey);
         scale = Music.NotesOfScale(key, scaleType);
-        foreach(Chord chord in chordsOnTheTable)
+        keyText.text = key.Name();
+        foreach(ChordBlob chord in chordBlobsOnTheTable)
         {
-            chord.UpdateChord();
+            chord.UpdateChordBlob();
         }
     }
     public void ChangeTempo(float newTempo)
     {
         tempo = newTempo;
-        tempoUnit = 1f / (newTempo / 60);
+        tempoUnit = 1f / (newTempo / 60) / 2;
+        swingTempoUnit1 = 4f / 3f * tempoUnit;
+        swingTempoUnit2 = 2f / 3f * tempoUnit;
         Time.fixedDeltaTime = tempoUnit;
     }
+
+
     public void ChangeScaleType(int nScaleType)
     { 
         switch (nScaleType)
@@ -84,9 +102,9 @@ public class Song : MonoBehaviour
                 break;
         }
         scale = Music.NotesOfScale(key, scaleType);
-        foreach (Chord chord in chordsOnTheTable)
+        foreach (ChordBlob chord in chordBlobsOnTheTable)
         {
-            chord.UpdateChord();
+            chord.UpdateChordBlob();
         }
     }
 
@@ -99,66 +117,83 @@ public class Song : MonoBehaviour
         savedPattern = nPattern;
         patternEditor.Refresh();
     }
-    public void ChangeActiveChord(Chord nChord)
+    public void ChangeActiveChord(ChordBlob nChord)
     {
-        if (activeChord != null)
+        if (activeChordBlob != null && activeChordBlob != nChord)
         {
-            activeChord.SetOff();
+            activeChordBlob.SetOff();
         }
-        activeChord = nChord;
-        bajoATocar = activeChord.chord[0];
+        activeChordBlob = nChord;
     }
     public void ChangeBeats(float nBeats)
     {
         savedPattern.beats = nBeats;
     }
-    public static float Mod(float a, float b)
-    {
-        float c = a % b;
-        if ((c < 0 && b > 0) || (c > 0 && b < 0))
-        {
-            c += b;
-        }
-        return c;
-    }
 
+    public int StepPatternRemainder()
+    {
+        return stepPattern % 2;
+    }
     void Start()
     {
         stepPattern = -1;
-        key = 0;
-        ChangeTempo(200);
+        key = new Music.Note(0);
+        ChangeTempo(120);
         ChangeScaleType(0);
         ChangeInterprete(interprete);
         scale = Music.NotesOfScale(key, scaleType);
-
     }
 
     void FixedUpdate()
     {
-        //Avanza stepPattern, y lo vuelve a 0 si se pasa de beats
+        //Cada pulso en play
         if (play)
         {
+            //Avanza stepPattern, y lo vuelve a 0 si se pasa de beats
             stepPattern++;
             if (stepPattern >= savedPattern.beats) { stepPattern = 0; }
-            percATocar.Clear();
-            foreach (int perc in savedPattern.percPattern[stepPattern])
+            if (savedPattern != playingPattern)
             {
-                percATocar.Add(perc);
+                if (stepPattern == 0)
+                {
+                    playingPattern.GetComponent<Animator>().SetBool("Blinking", false);
+                    playingPattern = savedPattern;
+                }
+                else { playingPattern.GetComponent<Animator>().SetBool("Blinking", true); }
             }
-            drums.TocarBajos(percATocar);
 
-            //Cada pulso en play
-            if (activeChord != null)
+            //ponemos el swing que toque en función de stepPattern
+            if(swing)
+            {
+                if(stepPattern%2 == 0)
+                {
+                    Time.fixedDeltaTime = swingTempoUnit1;
+                }
+                else
+                {
+                    Time.fixedDeltaTime = swingTempoUnit2;
+                }
+            }
+
+            //Percusión
+            drumsATocar.Clear();
+            foreach (int drum in playingPattern.percPattern[stepPattern])
+            {
+                drumsATocar.Add(drum);
+            }
+            drums.TocarBajos(drumsATocar);
+            
+            if (activeChordBlob != null)
             {
                 //necesitamos los ints de las teclas del telcado que tocar
-                List<int> teclasAcorde = Music.TeclasOfChord(activeChord.chord);
+                teclasAcorde = Music.TeclasOfChord(activeChordBlob.chord, octaves);
 
                 //Metemos a teclasATocar las teclas que requiere este stepPattern
                 teclasATocar.Clear();
                 bajosATocar.Clear();
-                foreach (int note in savedPattern.pattern[stepPattern])
+                foreach (int note in playingPattern.pattern[stepPattern])
                 {
-                    if (note < 0) { bajosATocar.Add(bajoATocar); }
+                    if (note < 0) { bajosATocar.Add(activeChordBlob.bass.number); }
                     else { teclasATocar.Add(teclasAcorde[note]); }
                 }
 

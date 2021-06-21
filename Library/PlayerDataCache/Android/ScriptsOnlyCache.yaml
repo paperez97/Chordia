@@ -1,8 +1,11 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
-    - Chord
+    - BottomBar
+    - ChordBlob
     - ChordCreator
+    - ChordDeleter
+    - ChordEvents
     - Debugging
     - Instrumento
     - PatternEditor
@@ -33,8 +36,10 @@ ScriptsOnlyBuild:
     UnityEditor.Graphs.dll:
     - UnityEditor.Graphs.AnimationBlendTree.Graph
     - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
     - UnityEditor.Graphs.AnimationStateMachine.Graph
     - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.StateNode
     - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
@@ -77,6 +82,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 58
       Script: {instanceID: 0}
+    - Class: 61
+      Script: {instanceID: 0}
     - Class: 74
       Script: {instanceID: 0}
     - Class: 81
@@ -110,59 +117,65 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 12472}
     - Class: 114
-      Script: {instanceID: 12680}
+      Script: {instanceID: 12496}
     - Class: 114
-      Script: {instanceID: 12828}
+      Script: {instanceID: 12682}
     - Class: 114
-      Script: {instanceID: 12872}
+      Script: {instanceID: 12826}
     - Class: 114
-      Script: {instanceID: 12886}
+      Script: {instanceID: 12832}
     - Class: 114
-      Script: {instanceID: 12940}
+      Script: {instanceID: 12876}
     - Class: 114
-      Script: {instanceID: 13172}
+      Script: {instanceID: 12890}
+    - Class: 114
+      Script: {instanceID: 12944}
     - Class: 114
       Script: {instanceID: 13176}
     - Class: 114
-      Script: {instanceID: 13500}
+      Script: {instanceID: 13502}
     - Class: 114
-      Script: {instanceID: 13630}
+      Script: {instanceID: 13632}
     - Class: 114
-      Script: {instanceID: 13818}
+      Script: {instanceID: 13638}
     - Class: 114
       Script: {instanceID: 13822}
     - Class: 114
-      Script: {instanceID: 13840}
+      Script: {instanceID: 13826}
     - Class: 114
-      Script: {instanceID: 14078}
+      Script: {instanceID: 13844}
     - Class: 114
-      Script: {instanceID: 14156}
+      Script: {instanceID: 13848}
     - Class: 114
-      Script: {instanceID: 14208}
+      Script: {instanceID: 14084}
     - Class: 114
-      Script: {instanceID: 14332}
+      Script: {instanceID: 14162}
     - Class: 114
-      Script: {instanceID: 14410}
+      Script: {instanceID: 14214}
     - Class: 114
-      Script: {instanceID: 14458}
+      Script: {instanceID: 14338}
     - Class: 114
-      Script: {instanceID: 14520}
+      Script: {instanceID: 14416}
     - Class: 114
-      Script: {instanceID: 14666}
+      Script: {instanceID: 14464}
     - Class: 114
-      Script: {instanceID: 14728}
+      Script: {instanceID: 14526}
     - Class: 114
-      Script: {instanceID: 14750}
+      Script: {instanceID: 14672}
     - Class: 114
-      Script: {instanceID: 14776}
+      Script: {instanceID: 14734}
     - Class: 114
-      Script: {instanceID: 14790}
+      Script: {instanceID: 14756}
     - Class: 114
-      Script: {instanceID: 14824}
+      Script: {instanceID: 14782}
     - Class: 114
-      Script: {instanceID: 14828}
+      Script: {instanceID: 14796}
     - Class: 114
-      Script: {instanceID: 14846}
+      Script: {instanceID: 14830}
+    - Class: 114
+      Script: {instanceID: 14834}
+    - Class: 114
+      Script: {instanceID: 14852}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -181,6 +194,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 224
       Script: {instanceID: 0}
+    - Class: 225
+      Script: {instanceID: 0}
     - Class: 850595691
       Script: {instanceID: 0}
   scriptHashData:
@@ -198,16 +213,16 @@ ScriptsOnlyBuild:
     className: Button
   - hash:
       serializedVersion: 2
-      Hash: a6e561615949734e9f12f9b61661f43e
-    assemblyName: UnityEngine.UI.dll
-    namespaceName: UnityEngine.UI
-    className: Image
-  - hash:
-      serializedVersion: 2
       Hash: 0ffaf073d4b1fa4e8036cf7ad52ddba7
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
     className: Toggle
+  - hash:
+      serializedVersion: 2
+      Hash: a6e561615949734e9f12f9b61661f43e
+    assemblyName: UnityEngine.UI.dll
+    namespaceName: UnityEngine.UI
+    className: Image
   - hash:
       serializedVersion: 2
       Hash: 7ab0e790220bdca831fdd886b339039d
@@ -372,10 +387,16 @@ ScriptsOnlyBuild:
     className: PatternEditorOpener
   - hash:
       serializedVersion: 2
-      Hash: 1df5043f0424ac97346ea8f965958921
+      Hash: 64bd87dd3c13d89226377be2665487c0
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Instrumento
+  - hash:
+      serializedVersion: 2
+      Hash: 30f3213a6e218a461fa00e428f22d3eb
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: BottomBar
   - hash:
       serializedVersion: 2
       Hash: bd3cf68c8964d3c66d1c43f4f98508c9
@@ -450,6 +471,12 @@ ScriptsOnlyBuild:
     className: AnalyticsTracker
   - hash:
       serializedVersion: 2
+      Hash: be6a82024bec6300e9f595cd502efffc
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: ChordBlob
+  - hash:
+      serializedVersion: 2
       Hash: cc4274b586df3c02688bac01b88bd16c
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.EventSystems
@@ -486,7 +513,7 @@ ScriptsOnlyBuild:
     className: Selectable
   - hash:
       serializedVersion: 2
-      Hash: 302935646b47123972df2cb98253c08d
+      Hash: 1fb617867db4ff0899963bca6b167741
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Variant
@@ -514,12 +541,6 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
     className: ScrollRect
-  - hash:
-      serializedVersion: 2
-      Hash: 033261f24aa8ec4751a4da1c36fa240a
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: Chord
   - hash:
       serializedVersion: 2
       Hash: c3d3430df9e3ea95e3e3d587961390fb
@@ -576,10 +597,16 @@ ScriptsOnlyBuild:
     className: RawImage
   - hash:
       serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+      Hash: 618225c78f008a374ccf71c4cffd125b
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Synth
+  - hash:
+      serializedVersion: 2
+      Hash: 48b5ef359a8ee960b4009ef536a5c3d4
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: ChordEvents
   - hash:
       serializedVersion: 2
       Hash: 3164bc883ff663a5cdb32d1ef7e7c0c5
@@ -630,6 +657,12 @@ ScriptsOnlyBuild:
     className: ActivationPlayableAsset
   - hash:
       serializedVersion: 2
+      Hash: 30f3213a6e218a461fa00e428f22d3eb
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: ChordDeleter
+  - hash:
+      serializedVersion: 2
       Hash: 18c222bef9ae745ce69ddde9b74337ca
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.EventSystems
@@ -672,7 +705,7 @@ ScriptsOnlyBuild:
     className: TextMeshProUGUI
   - hash:
       serializedVersion: 2
-      Hash: b8455b55f58b1d9c714de011736908ad
+      Hash: dad9f69353cfd9874047cb1d397a0fad
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PatternEditor
@@ -726,7 +759,7 @@ ScriptsOnlyBuild:
     className: NetworkDiscovery
   - hash:
       serializedVersion: 2
-      Hash: 35b99e3899e4fd96d2b2e05fd31d6f3a
+      Hash: 9534986920424181a78ea5410c719bf4
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PatternSaver
@@ -882,7 +915,7 @@ ScriptsOnlyBuild:
     className: PatternPreviewSq
   - hash:
       serializedVersion: 2
-      Hash: 74296f6f01d2bb5f90842f9e332bcb29
+      Hash: 670ec1518b930ec94ca6f66276a2290e
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Song
@@ -895,4 +928,4 @@ ScriptsOnlyBuild:
   platform: 13
   scenePathNames:
   - Assets/Scenes/Phone version (EN).unity
-  playerPath: C:/Users/paper/Desktop/Chordia Builds/Chordian2.5(en).aab
+  playerPath: C:/Users/paper/Desktop/Chordia Builds/Chordian3.0.aab

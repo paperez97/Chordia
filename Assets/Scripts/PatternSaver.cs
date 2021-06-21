@@ -9,15 +9,12 @@ public class PatternSaver : MonoBehaviour
     public Transform parent;
     public Toggle patternEditorOpener;
     public PatternEditor patternEditor;
+    public Button bin;
 
     public void AddNewPattern()
     {
         Instantiate(prefabSavedPattern, parent);
-        patternEditorOpener.isOn = true;
-        
-    }
-
-    void Start()
-    {
+        bin.interactable = true;
     }
 }
+

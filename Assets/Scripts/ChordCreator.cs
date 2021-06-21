@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class ChordCreator : MonoBehaviour
 {
@@ -25,7 +26,7 @@ public class ChordCreator : MonoBehaviour
     }
     public void CreateChord(int nDegree)
     {
-        foreach(Chord chord in song.chordsOnTheTable)
+        foreach(ChordBlob chord in song.chordBlobsOnTheTable)
         {
             if (chord.degree == nDegree)
             {
@@ -34,28 +35,13 @@ public class ChordCreator : MonoBehaviour
             }
 
         }
-            Chord newChord = Instantiate(chordPrefab, chordsContainer.transform).GetComponent<Chord>();
+            ChordBlob newChord = Instantiate(chordPrefab, chordsContainer.transform).GetComponent<ChordBlob>();
             newChord.degree = nDegree;
-            newChord.rectTransform.anchoredPosition += Vector2.right * (newChord.degree - 1) * (newChord.rectTransform.rect.width + 20) + Vector2.down * 100;
+            newChord.rectTransform.anchoredPosition += Vector2.right * (newChord.degree - 1) * 60 + Vector2.down * 100;
     }
 
     public void SetIsOpen(bool nIsOpen)
     {
         animator.SetBool("ChordCreatorOpen", nIsOpen);
-    }
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.tag == "Chord")
-        {
-            animator.SetBool("Deleting", true);
-        }
-    }
-
-    void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.gameObject.tag == "Chord")
-        {
-            animator.SetBool("Deleting", false);
-        }
     }
 }

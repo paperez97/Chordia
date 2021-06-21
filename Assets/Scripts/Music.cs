@@ -13,7 +13,7 @@ public static class Music
     public static int[] aug = { 0, 4, 8 };
 
     //Acordes por escala
-    public static int[] triad = { 0, 2, 4 };
+    public static int[] triad = { 0, 2, 4, 6};
     public static int[] sus2 = { 0, 1, 4 };
     public static int[] sus4 = { 0, 3, 4 };
     public static int[] seventh = { 0, 2, 4, 6 };
@@ -28,10 +28,8 @@ public static class Music
     public static int[] escalaLocria = { 0, 1, 3, 5, 6, 8, 10 };
 
     //Notas
-    public static char[] notes = { 'C', 'c', 'D', 'd', 'E', 'F', 'f', 'G', 'g', 'A', 'a', 'B' };
-    public static string[] bassKeyboard = { "C1", "c1", "D1", "d1", "E1", "F1", "f1", "G1", "g1", "A1", "a1", "B1"};
-    public static string[] keyboard = {"C2", "c2", "D2", "d2", "E2", "F2", "f2", "G2", "g2", "A2", "a2", "B2",
-                                   "C3", "c3", "D3", "d3", "E3", "F3", "f3", "G3", "g3", "A3", "a3", "B3"};
+    public static string[] notes = { "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" };
+    
     //Colores
     public static Color Icolor = new Color((float)42 / 255, (float)99 / 255, (float)242 / 255);
     public static Color IIcolor = new Color((float)19 / 255, (float)191 / 255, (float)49 / 255);
@@ -43,115 +41,52 @@ public static class Music
 
 
     //Methods
-    public static int NoteToInt(char note)
+    public static int NoteToInt(string noteName)
     {
-        return Array.IndexOf(notes, note);
+        return Array.IndexOf(notes, noteName);
     }
-    public static char IntToNote(int note)
+    public static string IntToNote(int note)
     {
         return notes[note];
     }
-    public static int[] NotesOfScale(int key, int[] scaleType)
+    public static Note[] NotesOfScale(Note key, int[] mode)
     {
-        //Devuelve una lista con las notas que pertenecen a la escala
+        //Devuelve una lista con las notas del modo mode en la tonalidad key
         //definida por key y scaleType
-        int[] nScale = new int[scaleType.Length];
-        for (int i = 0; i < scaleType.Length; i++)
+        Note[] nScale = new Note[mode.Length];
+        for (int i = 0; i < mode.Length; i++)
         {
-            nScale[i] = (key + scaleType[i]) % 12;
+            nScale[i] = new Note((key.number + mode[i]) % 12);
         }
         return nScale;
     }
-    public static List<int> NotesOfChord(int degree, int[] scale, int[] scaleChordType)
+    public static Chord CalculateChord(int degree, Note[] scale, string message)
     {   //Devuelve una lista con las notas del acorde
         //del degree dado, con la escala dada y del tipo dado
-        List<int> notesOfChord = new List<int>();
-
-        foreach (int scaleNote in scaleChordType)
+        List<Note> notesForChord = new List<Note>();
+        foreach (int item in Music.triad)
         {
-            notesOfChord.Add(scale[(degree - 1 + scaleNote) % 7]);
+            notesForChord.Add(scale[(degree - 1 + item) % 7]);
         }
-
-        return notesOfChord;
-
+        Chord nChord = new Chord(notesForChord);
+        nChord = nChord.Variant(message, scale);
+        return nChord;
     }
-    public static List<int> TeclasOfChord(List<int> chord)
+    public static List<int> TeclasOfChord(Chord chord, int octaves)
     {   //Devuelve una lista con los ints de todas
         //las teclas de keyboard que pertenecen al acorde
-
         List<int> result = new List<int>();
-        if (chord.Count == 3)
+        for(int i = 0; i < octaves; i++)
         {
-            foreach (string tecla in Music.keyboard)
+            foreach (Note chordNote in chord.ChordNotes("toPlay"))
             {
-                if (chord.Contains(Music.NoteToInt(tecla[0])))
-                {
-                    result.Add(Array.IndexOf(Music.keyboard, tecla));
-                }
+                    result.Add(chordNote.number + i * notes.Length);
             }
         }
-        if (chord.Count == 4)
-        {
-            //PUES CAMBIAMOS LA NOTA FUNDAMENTAL  POR LA SÉPTIMA, PORQUE NO QUEREMOS QUE LA SÉPTIMA SUENE en el bajo PORQUE QUEDA MAAAL
-            //Tecla es nombre + octava ("E3"), tecla[0] coge solo el nombre de la nota ("E")
-            int highestFirst = 0;
-            foreach (string tecla in Music.keyboard)
-            {
-                if (chord.Contains(Music.NoteToInt(tecla[0])) && Music.NoteToInt(tecla[0]) != chord[3])
-                {
-                    result.Add(Array.IndexOf(Music.keyboard, tecla));
-                    if (Music.NoteToInt(tecla[0]) == chord[0])
-                    {
-                        highestFirst = result.Count - 1;
-                    }
-                }
-            }
-
-            if(Modulo(chord[3] - chord[0], 12) == 10)
-            {
-                result[highestFirst] -= 2;
-                if (result[highestFirst - 3] > 2)
-                { result[highestFirst - 3] -= 2; }
-            }
-            if (Modulo(chord[3] - chord[0], 12) == 11)
-            {
-                result[highestFirst] -= 1;
-                if (result[highestFirst - 3] > 1)
-                { result[highestFirst - 3] -= 1; }
-
-            }
-        }
+        result.Sort();
         return result;
     }
 
-    public static string TypeOfChord(List<int> notesOfChord, int[] scaleChordType)
-    {   //Devuelve el tipo del acorde introducido --> (str) "m", "sus2", "M7" ...
-
-        if (Music.AreArraysEqual(scaleChordType, Music.triad))
-        {
-            int[] semitones = new int[notesOfChord.Count];
-            for (int i = 0; i < semitones.Length; i++)
-            {
-                if (notesOfChord[i] < notesOfChord[0])
-                {
-                    semitones[i] = (notesOfChord[i] + 12 - notesOfChord[0]);
-                }
-                else
-                {
-                    semitones[i] = ((notesOfChord[i]) - notesOfChord[0]);
-                }
-            }
-            if (AreArraysEqual(semitones, major)) { return ""; }
-            else if (AreArraysEqual(semitones, minor)) { return "m"; }
-            else if (AreArraysEqual(semitones, dim)) { return "dim"; }
-            else if (AreArraysEqual(semitones, aug)) { return "aug"; }
-            else { return "TriadButNotFound"; }
-        }
-        else if (Music.AreArraysEqual(scaleChordType, Music.sus2)) { return "sus2"; }
-        else if (Music.AreArraysEqual(scaleChordType, Music.sus4)) { return "sus4"; }
-        else if (Music.AreArraysEqual(scaleChordType, Music.seventh)) { return " 7"; }
-        else { return "NoScaleTypeFound"; }
-    }
     public static string ToRomanNumerals(int n)
     {   //Devuelve un int del 1 al 7 en números romanos
 
@@ -197,10 +132,241 @@ public static class Music
         return referenceFreq  * Mathf.Pow(Mathf.Pow(2, 1f / 12f), note);
     }
 
-    static int Modulo(int a, int b)
+    public static int Modulo(int a, int b)
     {
         return (Math.Abs(a * b) + a) % b;
     }
+
+    //Classes
+
+    public class Note
+    {
+        //Properties
+        public int number;
+
+        //Constructors
+        public Note() { }
+        public Note(int nNumber)
+        {
+            number = nNumber;
+        }
+
+        public Note(string noteName)
+        {
+            number = Music.NoteToInt(noteName);
+        }
+
+        //Methods
+        public string Name()
+        {
+            return notes[number];
+        }
+
+        public Note Copy()
+        {
+            return new Note(number);
+        }
+        public Note Transposed(int semitones)
+        {
+            Note result = new Note(this.number);
+            int nNumber = Modulo(result.number + semitones, notes.Length);
+            result.number = nNumber;
+            return result;
+        }
+
+        public int IntervalWith(Note other)
+        {
+            int result = Modulo(other.number - number, 12);
+            return result;
+        }
+
+        public Note MoveInScale(int steps, Note[] scale)
+        {
+            for (int i = 0; i < scale.Length; i++)
+            {
+                if(scale[i].number == number) 
+                {
+                    return scale[Modulo(i + steps, scale.Length)].Copy();
+                }
+            }
+            return null;
+        }
+
+        public string BemolName()
+        {
+            string result = this.Transposed(1).Name() + "♭";
+            return result;
+        }
+
+    }
+
+    public class Chord
+    {
+        //Properties
+        public Note fundamental;
+        public Note third;
+        public Note fifth;
+        public Note seventh;
+        public bool seventhOn = false;
+        public string variant;
+
+        //Constructors
+        public Chord() 
+        {
+
+        }
+        public Chord(List<Note> nNotesOfChord)
+        {
+            fundamental = nNotesOfChord[0];
+            third = nNotesOfChord[1];
+            fifth = nNotesOfChord[2];
+            seventh = nNotesOfChord[3];
+        }
+        public Chord(int nFundamental, int nThird, int nFifth, int nSeventh = 100)
+        {
+            fundamental = new Note(nFundamental);
+            third = new Note(nThird);
+            fifth = new Note(nFifth);
+            seventh = new Note(nSeventh);
+        }
+
+        public Chord(Note nFundamental, Note nThird, Note nFifth, Note nSeventh = null)
+        {
+            fundamental = nFundamental;
+            third = nThird;
+            fifth = nFifth;
+            seventh = nSeventh;
+        }
+
+        //Methods
+        public List<Note> ChordNotes(string message = "all")
+        {
+            List<Note> result = new List<Note>();
+            result.Add(fundamental);
+            result.Add(third);
+            result.Add(fifth);
+            result.Add(seventh);
+            switch (message)
+            {
+                case "toPlay":
+                    if (seventhOn)
+                    { result.Remove(fundamental); }
+                    else
+                    { result.Remove(seventh); }
+                    break;
+                default:
+                    break;
+            }
+            return result;
+        }
+
+
+        public string SeventhType()
+        {
+                if (fundamental.IntervalWith(seventh) == 11) { return "maj7"; }
+                if (fundamental.IntervalWith(seventh) == 10) { return "7"; }
+                else { return "7 rara"; }
+        }
+
+        public string ChordType()
+        {
+            int intervalThird = fundamental.IntervalWith(third);
+            int intervalFifth = fundamental.IntervalWith(fifth);
+
+            switch (intervalFifth)
+            {
+                case 7:
+                    switch(intervalThird)
+                    {
+                        case int n when n < 3:
+                            return "sus2";
+                        case 3:
+                            return "m";
+                        case 4:
+                            return "";
+                        case int n when n > 4:
+                            return "sus4";
+                    }
+                    break;
+                case int n when n < 7:
+                    return "dim";
+                case int n when n > 8:
+                    return "aug";
+            }
+            return "NoChordTypeFound";
+        }
+
+        public bool Contains(Note other)
+        {
+            foreach(Note note in ChordNotes())
+            {
+                if (note == other) { return true; }
+            }
+            return false;
+        }
+        public Chord Variant(string variationName, Note[] scale)
+        {
+            switch (variationName)
+            {
+                case "triad":
+                    return this;
+                case "sus2":
+                    return new Chord(fundamental, third.MoveInScale(-1, scale), fifth, seventh);
+                case "sus4":
+                    return new Chord(fundamental, third.MoveInScale(1, scale), fifth, seventh);
+                case "Mm":
+                    if (ChordType() == "")
+                    {
+                        return new Chord(fundamental, third.Transposed(-1), fifth, seventh);
+                    }
+                    else
+                    {
+                        return new Chord(fundamental, third.Transposed(1), fifth, seventh);
+                    }
+                case "7":
+                    seventhOn = true;
+                    return this;
+                case "7?":
+                    seventhOn = true;
+                    if (SeventhType() == "7")
+                    {
+                        seventh = seventh.Transposed(1);
+                    }
+                    else
+                    {
+                        seventh = seventh.Transposed(-1);
+                    }
+                    return this;
+                default:
+                    return null;
+            }
+        }
+
+        public string ChordNoteNames()
+        {
+            string result = "";
+            foreach (Note chordNote in ChordNotes())
+            {
+                result += chordNote.Name() + ", ";
+            }
+            return result;
+        }
+
+        public string ChordName()
+        {
+            string result;
+            result =  fundamental.Name() + ChordType();
+            if(seventhOn) { result += SeventhType(); }
+            return result;
+        }
+    }
+
+
+
+
+
+
+
 
     // 0   1   2   3   4   5   6   7   8    9   10  11  12
     // do  do# re  mib mi  fa  fa# sol sol# la  sib si

@@ -20,6 +20,7 @@ public class Tone
 
 public class Synth : MonoBehaviour
 {
+    public float volume;
     private float sampling_frequency = 48000;
 
     //for tonal part
@@ -76,16 +77,17 @@ public class Synth : MonoBehaviour
 
     public void TocarNotas(List<int> teclasATocar)
     {
+
         foreach (int tecla in teclasATocar)
         {
-            tones.Add(new Tone(Music.IntToFreq(tecla+12, 130f), 0.2f));
+            tones.Add(new Tone(Music.IntToFreq(tecla+12, 130f), volume));
         }
     }
     public void TocarBajos(List<int> teclasATocar)
     {
         foreach (int tecla in teclasATocar)
         {
-            tones.Add(new Tone(Music.IntToFreq(tecla, 130f), 0.2f));
+            tones.Add(new Tone(Music.IntToFreq(tecla, 130f), volume));
         }
     }
 

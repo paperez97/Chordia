@@ -5,33 +5,58 @@ using UnityEngine.UI;
 
 public class Variant : MonoBehaviour
 {
-    public Chord chord;
-    Image image;
-    public int angle;
+    public Animator variantAnimator;
+    public int optionNumber;
+    public string message;
+    public ChordBlob chordBlob;
+    public bool isOn;
+    public Text text;
+    public Image border;
+    public Image glow;
+
 
     void Start()
     {
-        image = GetComponent<Image>();
+        optionNumber = transform.GetSiblingIndex();
     }
+
     void Update()
     {
-        if (chord.isExpanded)
+        if (isOn)
         {
-
-            float radAngle = 2 * Mathf.PI / 360 * angle;
-            float farness = (Vector2.Angle(chord.swipe, new Vector2(Mathf.Cos(radAngle), Mathf.Sin(radAngle)))) / 180f;
-            if (farness < 1f / chord.numOptions)
-            {
-                transform.localScale = Vector2.one;
-                image.color = new Color(image.color.r, image.color.g, image.color.b, 0.6f);
-            }
-            else
-            {
-                transform.localScale = Vector2.one * (0.5f + (1-farness) / 3);
-                image.color = new Color(image.color.r, image.color.g, image.color.b, 0.3f);
-            }
-            
-            
+            variantAnimator.SetBool("variantActivated", true);
+            chordBlob.variantMessage = message;
+        }
+        else
+        {
+            variantAnimator.SetBool("variantActivated", false);
         }
     }
+
+    public void UpdateVariant()
+    {
+        if (message == "Mm" && chordBlob.variantMessage != "Mm")
+        {
+            if (chordBlob.chord.ChordType() == "")
+            {
+                text.text = "m";
+            }
+            else { text.text = "M"; }
+        }
+
+        if (message == "7" && chordBlob.variantMessage != "7")
+        {
+                text.text = chordBlob.chord.SeventhType();
+        }
+
+        if (message == "7?" && chordBlob.variantMessage != "7?")
+        {
+            if (chordBlob.chord.SeventhType() == "maj7")
+            {
+                text.text = "7";
+            }
+            else { text.text = "maj7"; }
+        }
+    }
+
 }

@@ -13,7 +13,6 @@ public class PatternPreviewSq : MonoBehaviour
 
     void Start()
     {
-        image.color = new Color(1, 1, 1, 0);
         if (savedPattern.pattern[column].Exists(element => element == row))
         {
             TurnOn();
@@ -22,11 +21,11 @@ public class PatternPreviewSq : MonoBehaviour
 
     public void TurnOn()
     {
-        image.color = new Color(1, 1, 1, 0.5f);
+        image.enabled = true;
     }
 
     public void TurnOff()
     {
-        image.color = new Color(1, 1, 1, 0);
+        image.enabled = false;
     }
 }
