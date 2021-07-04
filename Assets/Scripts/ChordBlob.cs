@@ -58,6 +58,7 @@ public class ChordBlob : MonoBehaviour
     {
         //Chord
         song = GameObject.FindGameObjectWithTag("Song").GetComponent<Song>();
+        song.OnRefreshUI += Song_OnRefreshUI;
         chordCreator = GameObject.FindGameObjectWithTag("ChordCreator").GetComponent<ChordCreator>();
         song.chordBlobsOnTheTable.Add(this);
         numOptions = variants.childCount;
@@ -102,6 +103,11 @@ public class ChordBlob : MonoBehaviour
             variant.gameObject.GetComponent<Variant>().glow.color = degreeColor;
             variant.gameObject.GetComponent<Variant>().text.color = degreeText.color;
         }
+        UpdateChordBlob();
+    }
+
+    private void Song_OnRefreshUI(object sender, EventArgs e)
+    {
         UpdateChordBlob();
     }
 

@@ -13,8 +13,13 @@ public class PatternSaver : MonoBehaviour
 
     public void AddNewPattern()
     {
-        Instantiate(prefabSavedPattern, parent);
+        ReturnNewPattern();
+    }
+
+    public SavedPattern ReturnNewPattern()
+    {
         bin.interactable = true;
+        return Instantiate(prefabSavedPattern, parent).GetComponent<SavedPattern>();
     }
 }
 

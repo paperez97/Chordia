@@ -60,6 +60,21 @@ public static class Music
         }
         return nScale;
     }
+
+    public static string NameOfScale(int[] scaleType)
+    {
+        if (scaleType.Equals(new int[] { 0, 2, 4, 5, 7, 9, 11 })) {return "major";}
+        if (scaleType.Equals( new int[] { 0, 2, 3, 5, 7, 8, 10 })) { return "minor"; }
+        if (scaleType.Equals(new int[] { 0, 2, 4, 6, 7, 9, 11 })) { return "lidian"; }
+        if (scaleType.Equals(new int[] { 0, 2, 4, 5, 7, 9, 10 })) { return "mixolidian"; }
+        if (scaleType.Equals(new int[] { 0, 2, 3, 5, 7, 9, 10 })) { return "dorian"; }
+        if (scaleType.Equals(new int[] { 0, 1, 3, 5, 7, 8, 10 })) { return "frigian"; }
+        if (scaleType.Equals(new int[] { 0, 2, 4, 5, 7, 9, 11 })) { return "major"; }
+        if (scaleType.Equals(new int[] { 0, 1, 3, 5, 6, 8, 10 })) { return "locrian"; }
+        else { return "unknown scale"; }
+
+
+    }
     public static Chord CalculateChord(int degree, Note[] scale, string message)
     {   //Devuelve una lista con las notas del acorde
         //del degree dado, con la escala dada y del tipo dado

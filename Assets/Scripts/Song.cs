@@ -9,13 +9,13 @@ public class Song : MonoBehaviour
 {
     //Harmony
     public ChordBlob activeChordBlob;
-    public SavedPattern savedPattern;
+    public SavedPattern selectedPattern;
     public SavedPattern playingPattern;
     public List<ChordBlob> chordBlobsOnTheTable = new List<ChordBlob>();
-    public int[] scaleType;
+    public int[] scaleType = Music.major;
     public Music.Note[] scale;
-    public Music.Note key;
-    public Text keyText;
+    public Music.Note key = new Music.Note(0);
+
 
     //Tempo
     public int stepPattern;
@@ -23,7 +23,6 @@ public class Song : MonoBehaviour
     public float tempoUnit = 0;
     public float swingTempoUnit1;
     public float swingTempoUnit2;
-    public bool play = true;
     public bool swing;
 
 
@@ -39,17 +38,25 @@ public class Song : MonoBehaviour
     //Behaviour
     public PatternEditor patternEditor;
     public List<int> teclasAcorde;
+    public ChordCreator chordCreator;
+    public PatternSaver patternSaver;
+    public Instrumento ins;
 
     //Events
-    public UnityEvent OnPatternChange;
+    public event EventHandler OnRefreshUI;
 
     //Methods
 
-    public void ChangePlay(bool isPlay)
+    public void GenerateSong(int nKey, int nTempo, int nScaleType, Instrumento nInterprete, int[] nChords)
     {
-        play = isPlay;
+        ChangeKey(nKey);
+        ChangeScaleType(nScaleType);
+        ChangeInterprete(nInterprete);
+        ChangeTempo(nTempo);
+        foreach (int nChord in nChords) chordCreator.CreateChord(nChord);
+        playingPattern = patternSaver.ReturnNewPattern();
+        ChangePattern(playingPattern);
     }
-
     public void ChangeSwing(bool isSwing)
     {
         swing = isSwing;
@@ -57,13 +64,10 @@ public class Song : MonoBehaviour
     }
     public void ChangeKey(int newKey)
     {
+        Debug.Log("Key changed: " + key.Name() + " to " + new Music.Note(newKey).Name()); ;
         key = new Music.Note(newKey);
         scale = Music.NotesOfScale(key, scaleType);
-        keyText.text = key.Name();
-        foreach(ChordBlob chord in chordBlobsOnTheTable)
-        {
-            chord.UpdateChordBlob();
-        }
+        OnRefreshUI?.Invoke(this, EventArgs.Empty);
     }
     public void ChangeTempo(float newTempo)
     {
@@ -72,9 +76,8 @@ public class Song : MonoBehaviour
         swingTempoUnit1 = 4f / 3f * tempoUnit;
         swingTempoUnit2 = 2f / 3f * tempoUnit;
         Time.fixedDeltaTime = tempoUnit;
+        OnRefreshUI?.Invoke(this, EventArgs.Empty);
     }
-
-
     public void ChangeScaleType(int nScaleType)
     { 
         switch (nScaleType)
@@ -101,21 +104,17 @@ public class Song : MonoBehaviour
                 scaleType = Music.escalaLocria;
                 break;
         }
-        scale = Music.NotesOfScale(key, scaleType);
-        foreach (ChordBlob chord in chordBlobsOnTheTable)
-        {
-            chord.UpdateChordBlob();
-        }
+        OnRefreshUI?.Invoke(this, EventArgs.Empty);
     }
-
     public void ChangeInterprete (Instrumento nInterprete)
     {
         interprete = nInterprete;
+        OnRefreshUI?.Invoke(this, EventArgs.Empty);
     }
     public void ChangePattern (SavedPattern nPattern)
     {
-        savedPattern = nPattern;
-        patternEditor.Refresh();
+        selectedPattern = nPattern;
+        OnRefreshUI?.Invoke(this, EventArgs.Empty);
     }
     public void ChangeActiveChord(ChordBlob nChord)
     {
@@ -127,89 +126,87 @@ public class Song : MonoBehaviour
     }
     public void ChangeBeats(float nBeats)
     {
-        savedPattern.beats = nBeats;
+        selectedPattern.beats = nBeats;
+        OnRefreshUI?.Invoke(this, EventArgs.Empty);
     }
-
     public int StepPatternRemainder()
     {
         return stepPattern % 2;
-    }
-    void Start()
+    } 
+    public void InvokeRefresh()
     {
-        stepPattern = -1;
-        key = new Music.Note(0);
-        ChangeTempo(120);
-        ChangeScaleType(0);
-        ChangeInterprete(interprete);
-        scale = Music.NotesOfScale(key, scaleType);
+        OnRefreshUI?.Invoke(this, EventArgs.Empty);
+    }
+
+
+    private void Start()
+    {
+        GenerateSong(0, 120, 0, ins, new int[] { 1, 6, 7 });
     }
 
     void FixedUpdate()
     {
-        //Cada pulso en play
-        if (play)
+        //Avanza stepPattern, y lo vuelve a 0 si se pasa de beats
+        stepPattern++;
+        if (stepPattern >= selectedPattern.beats) { stepPattern = 0; }
+        if (selectedPattern != playingPattern)
         {
-            //Avanza stepPattern, y lo vuelve a 0 si se pasa de beats
-            stepPattern++;
-            if (stepPattern >= savedPattern.beats) { stepPattern = 0; }
-            if (savedPattern != playingPattern)
+            if (stepPattern == 0)
             {
-                if (stepPattern == 0)
-                {
-                    playingPattern.GetComponent<Animator>().SetBool("Blinking", false);
-                    playingPattern = savedPattern;
-                }
-                else { playingPattern.GetComponent<Animator>().SetBool("Blinking", true); }
+                playingPattern.GetComponent<Animator>().SetBool("Blinking", false);
+                playingPattern = selectedPattern;
             }
+            else { playingPattern.GetComponent<Animator>().SetBool("Blinking", true); }
+        }
 
-            //ponemos el swing que toque en función de stepPattern
-            if(swing)
+        //ponemos el swing que toque en función de stepPattern
+        if(swing)
+        {
+            if(stepPattern%2 == 0)
             {
-                if(stepPattern%2 == 0)
-                {
-                    Time.fixedDeltaTime = swingTempoUnit1;
-                }
-                else
-                {
-                    Time.fixedDeltaTime = swingTempoUnit2;
-                }
+                Time.fixedDeltaTime = swingTempoUnit1;
             }
-
-            //Percusión
-            drumsATocar.Clear();
-            foreach (int drum in playingPattern.percPattern[stepPattern])
+            else
             {
-                drumsATocar.Add(drum);
-            }
-            drums.TocarBajos(drumsATocar);
-            
-            if (activeChordBlob != null)
-            {
-                //necesitamos los ints de las teclas del telcado que tocar
-                teclasAcorde = Music.TeclasOfChord(activeChordBlob.chord, octaves);
-
-                //Metemos a teclasATocar las teclas que requiere este stepPattern
-                teclasATocar.Clear();
-                bajosATocar.Clear();
-                foreach (int note in playingPattern.pattern[stepPattern])
-                {
-                    if (note < 0) { bajosATocar.Add(activeChordBlob.bass.number); }
-                    else { teclasATocar.Add(teclasAcorde[note]); }
-                }
-
-                //Tocamos las notas que tocan en esta parte del pattern
-                synth.Silence();
-                if (interprete.name == "Synth")
-                {
-                    synth.TocarNotas(teclasATocar);
-                    synth.TocarBajos(bajosATocar);
-                }
-                else
-                {
-                    interprete.TocarNotas(teclasATocar);
-                    interprete.TocarBajos(bajosATocar);
-                }
+                Time.fixedDeltaTime = swingTempoUnit2;
             }
         }
+
+        //Percusión
+        //drumsATocar.Clear();
+        //foreach (int drum in playingPattern.percPattern[stepPattern])
+        //{
+        //    drumsATocar.Add(drum);
+        //}
+        //drums.TocarBajos(drumsATocar);
+            
+        if (activeChordBlob != null)
+        {
+            //necesitamos los ints de las teclas del telcado que tocar
+            teclasAcorde = Music.TeclasOfChord(activeChordBlob.chord, octaves);
+
+            //Metemos a teclasATocar las teclas que requiere este stepPattern
+            teclasATocar.Clear();
+            bajosATocar.Clear();
+            foreach (int note in playingPattern.pattern[stepPattern])
+            {
+                if (note < 0) { bajosATocar.Add(activeChordBlob.bass.number); }
+                else { teclasATocar.Add(teclasAcorde[note]); }
+            }
+
+            //Tocamos las notas que tocan en esta parte del pattern
+            synth.Silence();
+            if (interprete.nombre == "Synth")
+            {
+                synth.TocarNotas(teclasATocar);
+                synth.TocarBajos(bajosATocar);
+            }
+            else
+            {
+                interprete.TocarNotas(teclasATocar);
+                interprete.TocarBajos(bajosATocar);
+            }
+        }
+        
     }
 }

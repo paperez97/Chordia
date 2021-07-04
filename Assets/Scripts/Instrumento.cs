@@ -8,7 +8,7 @@ public class Instrumento : MonoBehaviour
     //Audio
     AudioSource[] audioSources;
     private AudioSource source;
-    public string name;
+    public string nombre;
     public float delay;
     List<AudioSource[]> notasParaAcorde;
     List<AudioSource[]> notasParaBajo;
@@ -33,7 +33,7 @@ public class Instrumento : MonoBehaviour
                 audio1.volume = volume;
                 audio2.clip = audioClips[i];
                 audio2.volume = volume;
-                if(name == "Guitar" || name == "Banjo")
+                if(nombre == "Guitar" || nombre == "Banjo")
                 {
                     audio1.volume *= 1.3f;
                     audio2.volume *= 1.3f;
