@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System.IO;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -19,7 +20,7 @@ public class Song : MonoBehaviour
 
     //Tempo
     public int stepPattern;
-    public float tempo;
+    public int tempo;
     public float tempoUnit = 0;
     public float swingTempoUnit1;
     public float swingTempoUnit2;
@@ -41,6 +42,8 @@ public class Song : MonoBehaviour
     public ChordCreator chordCreator;
     public PatternSaver patternSaver;
     public Instrumento ins;
+    SavedInfo savedInfo;
+    string thisShouldBeAFile;
 
     //Events
     public event EventHandler OnRefreshUI;
@@ -57,6 +60,59 @@ public class Song : MonoBehaviour
         playingPattern = patternSaver.ReturnNewPattern();
         ChangePattern(playingPattern);
     }
+
+    public void Save()
+    {
+        //guardamos los grados que tenemos en una variable
+        int[] degreesOnTheTable = new int[chordBlobsOnTheTable.Count];
+        for(int i = 0; i < chordBlobsOnTheTable.Count; i++)
+        {
+            degreesOnTheTable[i] = chordBlobsOnTheTable[i].degree;
+        }
+        //Copiamos la info de los patterns que hay, todo en una variable
+        List<int>[,] patternsOnTheTable = new List<int>[patternSaver.transform.childCount, 8];
+        for(int i = 0; i < patternSaver.transform.childCount; i++)
+        {
+            for (int j = 0; j < 8; j++)
+            {
+                patternsOnTheTable[i,j] = patternSaver.transform.GetChild(i).GetComponent<SavedPattern>().pattern[j];
+            }
+        }
+        savedInfo = new SavedInfo(key.number, tempo, degreesOnTheTable, patternsOnTheTable);
+        thisShouldBeAFile = JsonUtility.ToJson(savedInfo);
+        
+    }
+
+    public void Load()
+    {
+        patternSaver.DestroyAllPatterns();
+        foreach (ChordBlob chord in chordBlobsOnTheTable)
+        {
+            chordBlobsOnTheTable.Remove(chord);
+            Destroy(chord.gameObject);
+        }
+        SavedInfo loadedInfo = savedInfo;
+        key = new Music.Note(loadedInfo.key);
+        tempo = loadedInfo.tempo;
+        foreach(int chordDegree in loadedInfo.chords)
+        {
+            chordCreator.CreateChord(chordDegree);
+            Debug.Log("Acorde creado " + chordDegree);
+        }
+        for (int i = 0; i < loadedInfo.pattern.GetLength(0); i++)
+        {
+            List<int>[] copiedPattern = new List<int>[8];
+            for (int j = 0; j < loadedInfo.pattern.GetLength(1); j++)
+            {
+                copiedPattern[j] = loadedInfo.pattern[i, j];
+            }
+            SavedPattern loadedPattern = patternSaver.ReturnNewPattern();
+            loadedPattern.pattern = copiedPattern;
+        }
+        OnRefreshUI?.Invoke(this, EventArgs.Empty);
+    }
+
+
     public void ChangeSwing(bool isSwing)
     {
         swing = isSwing;
@@ -69,7 +125,7 @@ public class Song : MonoBehaviour
         scale = Music.NotesOfScale(key, scaleType);
         OnRefreshUI?.Invoke(this, EventArgs.Empty);
     }
-    public void ChangeTempo(float newTempo)
+    public void ChangeTempo(int newTempo)
     {
         tempo = newTempo;
         tempoUnit = 1f / (newTempo / 60) / 2;
@@ -148,7 +204,8 @@ public class Song : MonoBehaviour
     {
         //Avanza stepPattern, y lo vuelve a 0 si se pasa de beats
         stepPattern++;
-        if (stepPattern >= selectedPattern.beats) { stepPattern = 0; }
+        if (stepPattern >= playingPattern.beats) { stepPattern = 0; }
+        if (playingPattern == null) playingPattern = selectedPattern;
         if (selectedPattern != playingPattern)
         {
             if (stepPattern == 0)
@@ -208,5 +265,22 @@ public class Song : MonoBehaviour
             }
         }
         
+    }
+
+    private class SavedInfo
+    {
+        public int key;
+        public int tempo;
+        public int[] chords;
+        public List<int>[,] pattern;
+        public List<int> beats;
+        public SavedInfo(int nKey, int nTempo, int[] nChords, List<int>[,] nPattern)
+        {
+            key = nKey;
+            tempo = nTempo;
+            chords = nChords;
+            pattern = nPattern;
+        }
+
     }
 }

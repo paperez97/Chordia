@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,37 +20,21 @@ public class PatternEditorCell : MonoBehaviour
     {//Se añade a pattern si no está y se quita si está
         if(isOn)
         {
-            if (!song.selectedPattern.pattern[column].Exists(element => element == row))
+            if (!song.selectedPattern.pattern[column].Contains(row))
              { song.selectedPattern.pattern[column].Add(row); }
-            if (row >= 0)
-            {
-                song.selectedPattern.sqPreviewGrid.GetChild((5 - row) * 8 + column).gameObject.GetComponent<PatternPreviewSq>().TurnOn();
-            }
-            else
-            {
-                song.selectedPattern.sqPreviewGridBass.GetChild(column).gameObject.GetComponent<PatternPreviewSq>().TurnOn();
-            }
-
         }
         else
         {
             song.selectedPattern.pattern[column].Remove(row);
-            if (row >= 0)
-            {
-                song.selectedPattern.sqPreviewGrid.GetChild((5 - row) * 8 + column).gameObject.GetComponent<PatternPreviewSq>().TurnOff();
-            }
-            else
-            {
-                song.selectedPattern.sqPreviewGridBass.GetChild(column).gameObject.GetComponent<PatternPreviewSq>().TurnOff();
-            }
         }
+        song.InvokeRefresh();
     }
 
     public void SetDrumPattern(bool isOn)
     {//Se añade a pattern si no está y se quita si está
         if (isOn)
         {
-            if (!song.selectedPattern.percPattern[column].Exists(element => element == row))
+            if (!song.selectedPattern.percPattern[column].Contains(row))
             { song.selectedPattern.percPattern[column].Add(row); }
         }
         else
@@ -69,7 +54,7 @@ public class PatternEditorCell : MonoBehaviour
         lowlight.SetActive(column > song.selectedPattern.beats - 1);
     }
 
-    public void RefreshNotesToggle()
+    public void RefreshCell()
     {
         toggle.isOn = song.selectedPattern.pattern[column].Exists(element => element == row);
     }

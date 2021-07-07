@@ -285,6 +285,11 @@ public class ChordBlob : MonoBehaviour
             animator.SetBool("deleting", false);
         }
     }
+    private void OnDestroy()
+    {
+        song.chordBlobsOnTheTable.Remove(this);
+        song.OnRefreshUI -= Song_OnRefreshUI;
+    }
 }
 
 

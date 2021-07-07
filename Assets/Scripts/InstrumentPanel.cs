@@ -11,6 +11,23 @@ public class InstrumentPanel : MonoBehaviour
     public Instrumento guitar;
     public Song song;
 
+    private void Start()
+    {
+        song.OnRefreshUI += Song_OnRefreshUI;
+    }
+
+    private void Song_OnRefreshUI(object sender, System.EventArgs e)
+    {
+        //Que se active el Toggle que corresponda a song.interprete
+        foreach (Transform instrumentToggle in transform)
+        {
+            if (instrumentToggle.gameObject.name == song.interprete.name)
+            {
+                instrumentToggle.gameObject.GetComponent<Toggle>().isOn = true;
+            }
+        }
+    }
+
     public void PressInstrument(bool isOn)
     {
         if (isOn)

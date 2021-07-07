@@ -55,7 +55,7 @@ public class PatternEditor : MonoBehaviour
     {
         foreach (PatternEditorCell cell in patternCells)
         {
-            cell.RefreshNotesToggle();
+            cell.RefreshCell();
         }
         foreach (PatternEditorCell cell in drumCells)
         {
@@ -64,12 +64,11 @@ public class PatternEditor : MonoBehaviour
         slider.value = song.selectedPattern.beats;
     }
 
-    public void DestroyEditingPattern()
+    public void DestroySelectedPattern()
     {
         Destroy(song.selectedPattern.gameObject);
         if (patternSaver.transform.childCount < 3)
         { bin.interactable = false; }
-        song.playingPattern = patternSaver.transform.GetChild(0).GetComponent<SavedPattern>();
     }
 }
 

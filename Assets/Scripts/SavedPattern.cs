@@ -6,8 +6,16 @@ using UnityEngine.UI;
 public class SavedPattern : MonoBehaviour
 {
 
-    public List<int>[] pattern;
-    public List<int>[] percPattern;
+    public List<int>[] pattern = new List<int>[] { new List<int>(),
+                                    new List<int>(),
+                                    new List<int>(),
+                                    new List<int>(),
+                                    new List<int>(),
+                                    new List<int>(),
+                                    new List<int>(),
+                                    new List<int>()
+};
+public List<int>[] percPattern;
     public float beats;
     public Song song;
     Toggle toggle;
@@ -23,18 +31,13 @@ public class SavedPattern : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+        Debug.Log("pattern started");
         song = GameObject.FindGameObjectWithTag("Song").GetComponent<Song>();
 
         toggle = GetComponent<Toggle>();
  
-        pattern = new List<int>[] { new List<int>(),
-                                    new List<int>(),
-                                    new List<int>(),
-                                    new List<int>(),
-                                    new List<int>(),
-                                    new List<int>(),
-                                    new List<int>(),
-                                    new List<int>() };
+
 
         percPattern = new List<int>[] { new List<int>(),
                                     new List<int>(),
@@ -75,4 +78,5 @@ public class SavedPattern : MonoBehaviour
     {
         pattern[beat-1].Add(note);
     }
+
 }

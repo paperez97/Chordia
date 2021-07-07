@@ -21,5 +21,18 @@ public class PatternSaver : MonoBehaviour
         bin.interactable = true;
         return Instantiate(prefabSavedPattern, parent).GetComponent<SavedPattern>();
     }
+
+    public void AddThisPattern(SavedPattern nPattern)
+    {
+        Instantiate(nPattern, parent).GetComponent<SavedPattern>();
+    }
+
+    public void DestroyAllPatterns()
+    {
+        foreach(Transform child in parent)
+        {
+            Destroy(child.gameObject);
+        }
+    }
 }
 

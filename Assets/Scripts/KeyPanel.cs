@@ -26,9 +26,6 @@ public class KeyPanel : MonoBehaviour
     }
     private void Song_OnRefreshUI(object sender, EventArgs e)
     {
-        Debug.Log("song.key = "+ song.key.Name() + 
-            "\nActive keyboard key = " + keyboard.GetComponent<ToggleGroup>().GetFirstActiveToggle().gameObject.name);
-
             //Que se active el Toggle que corresponda a song.key
             foreach (Transform key in keyboard)
             {
