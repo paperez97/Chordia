@@ -10,6 +10,7 @@ TagManager:
   - Chord
   - Bin
   - ChordCreator
+  - TrashButton
   layers:
   - Default
   - TransparentFX

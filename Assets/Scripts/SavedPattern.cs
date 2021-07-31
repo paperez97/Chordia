@@ -16,14 +16,14 @@ public class SavedPattern : MonoBehaviour
                                     new List<int>()
 };
 public List<int>[] percPattern;
-    public float beats;
+    public float beats = 8;
     public Song song;
     Toggle toggle;
     public bool isDefault;
     public Transform sqPreviewGrid;
     public Transform sqPreviewGridBass;
     
-    public void SetBeats(float newBeats)
+    public void SetBeats(int newBeats)
     {
         beats = newBeats;
     }
@@ -32,7 +32,6 @@ public List<int>[] percPattern;
     void Start()
     {
 
-        Debug.Log("pattern started");
         song = GameObject.FindGameObjectWithTag("Song").GetComponent<Song>();
 
         toggle = GetComponent<Toggle>();
@@ -47,8 +46,6 @@ public List<int>[] percPattern;
                                     new List<int>(),
                                     new List<int>(),
                                     new List<int>() };
-
-        beats = 8;
 
         if(isDefault)
         {

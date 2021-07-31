@@ -138,7 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96a4993547d414283a2c0f61b9b5b410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  beats: 0
+  beats: 8
   song: {fileID: 0}
   isDefault: 0
   sqPreviewGrid: {fileID: 8076120178186414230}

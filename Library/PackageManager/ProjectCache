@@ -5,22 +5,22 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637574798856208044
-    m_Hash: 3273772872
+      ticks: 637633398183620288
+    m_Hash: 3331593768
   m_LockFileStatus:
     m_FilePath: C:/Users/paper/Desktop/Unity broh/Chordia/Chordia/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637574801108036360
-    m_Hash: 2383991405
+      ticks: 637633398656643973
+    m_Hash: 3932213379
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_LocalPackages:
   m_LocalFileStatus: []
 m_ProjectPath: C:/Users/paper/Desktop/Unity broh/Chordia/Chordia/Packages
-m_EditorVersion: 2021.1.7f1 (d91830b65d9b)
+m_EditorVersion: 2021.1.16f1 (5fa502fca597)
 m_ResolvedPackages:
 - packageId: com.unity.2d.sprite@1.0.0
   testable: 0
@@ -189,9 +189,11 @@ m_ResolvedPackages:
     - 3.6.1
     - 3.7.0
     - 3.7.1
+    - 3.7.3
     compatible:
     - 3.7.1
-    verified: 3.7.1
+    - 3.7.3
+    verified: 3.7.3
   dependencies:
   - name: com.unity.ugui
     version: 1.0.0
@@ -283,8 +285,10 @@ m_ResolvedPackages:
     - 3.3.5
     - 3.4.0
     - 3.5.3
+    - 3.6.11
     compatible:
     - 3.5.3
+    - 3.6.11
     verified: 3.5.3
   dependencies:
   - name: com.unity.ugui
@@ -322,24 +326,25 @@ m_ResolvedPackages:
   unityLifecycle:
     version: 3.5.3
     nextVersion: 
-- packageId: com.unity.collab-proxy@1.3.9
+- packageId: com.unity.collab-proxy@1.7.1
   testable: 0
   isDirectDependency: 1
-  version: 1.3.9
+  version: 1.7.1
   source: 1
-  resolvedPath: C:\Users\paper\Desktop\Unity broh\Chordia\Chordia\Library\PackageCache\com.unity.collab-proxy@1.3.9
+  resolvedPath: C:\Users\paper\Desktop\Unity broh\Chordia\Chordia\Library\PackageCache\com.unity.collab-proxy@1.7.1
   assetPath: Packages/com.unity.collab-proxy
   name: com.unity.collab-proxy
-  displayName: Unity Collaborate
+  displayName: Version Control
   author:
     name: 
     email: 
     url: 
   category: Editor
   type: 
-  description: Collaborate with your teammates with the official version control
-    system for Unity. Collaborate is a simple way for teams to save, share, and sync
-    your Unity project.
+  description: The Version Control package gives you the ability to use either Collaborate
+    or Plastic SCM for Unity (beta) in the Unity editor. To use Plastic SCM for Unity
+    (beta), a Plastic SCM subscription is required. Learn more about how you can
+    get started for free by visiting plasticscm.com.
   status: 4
   errors: []
   versions:
@@ -361,7 +366,10 @@ m_ResolvedPackages:
     - 1.3.7
     - 1.3.8
     - 1.3.9
+    - 1.4.9
     - 1.5.7
+    - 1.6.0
+    - 1.7.1
     - 2.0.0-preview.6
     - 2.0.0-preview.8
     - 2.0.0-preview.15
@@ -373,8 +381,7 @@ m_ResolvedPackages:
     - 2.1.0-preview.5
     - 2.1.0-preview.6
     compatible:
-    - 1.3.9
-    - 1.5.7
+    - 1.7.1
     - 2.0.0-preview.6
     - 2.0.0-preview.8
     - 2.0.0-preview.15
@@ -385,20 +392,27 @@ m_ResolvedPackages:
     - 2.1.0-preview.3
     - 2.1.0-preview.5
     - 2.1.0-preview.6
-    verified: 1.3.9
-  dependencies: []
-  resolvedDependencies: []
+    verified: 1.7.1
+  dependencies:
+  - name: com.unity.nuget.newtonsoft-json
+    version: 2.0.0
+  resolvedDependencies:
+  - name: com.unity.nuget.newtonsoft-json
+    version: 2.0.0
   keywords:
-  - vsc
-  - version
-  - control
-  - collab
-  - collaboration
-  - collaborate
-  - teams
-  - team
-  - cloud
   - backup
+  - cloud
+  - collab
+  - collaborate
+  - collaboration
+  - control
+  - plastic
+  - plasticscm
+  - source
+  - team
+  - teams
+  - version
+  - vcs
   registry:
     id: main
     name: 
@@ -411,16 +425,16 @@ m_ResolvedPackages:
   entitlements:
     isAllowed: 1
   isAssetStorePackage: 0
-  datePublishedTicks: 637314349270000000
+  datePublishedTicks: 637616921650000000
   documentationUrl: 
   hasRepository: 1
   repository:
     type: git
     url: https://github.cds.internal.unity3d.com/unity/com.unity.cloud.collaborate.git
-    revision: fa825106f349f996acff22f718845eab46ca2d7c
+    revision: 30ef59f552633de9ff0401db4e73ac89982d4ac0
     path: 
   unityLifecycle:
-    version: 1.3.9
+    version: 1.7.1
     nextVersion: 
 - packageId: com.unity.ext.nunit@1.0.6
   testable: 0
@@ -481,12 +495,12 @@ m_ResolvedPackages:
   unityLifecycle:
     version: 1.0.6
     nextVersion: 
-- packageId: com.unity.ide.rider@3.0.6
+- packageId: com.unity.ide.rider@3.0.7
   testable: 0
   isDirectDependency: 1
-  version: 3.0.6
+  version: 3.0.7
   source: 1
-  resolvedPath: C:\Users\paper\Desktop\Unity broh\Chordia\Chordia\Library\PackageCache\com.unity.ide.rider@3.0.6
+  resolvedPath: C:\Users\paper\Desktop\Unity broh\Chordia\Chordia\Library\PackageCache\com.unity.ide.rider@3.0.7
   assetPath: Packages/com.unity.ide.rider
   name: com.unity.ide.rider
   displayName: JetBrains Rider Editor
@@ -529,7 +543,6 @@ m_ResolvedPackages:
     - 3.0.6
     - 3.0.7
     compatible:
-    - 3.0.6
     - 3.0.7
     verified: 3.0.7
   dependencies:
@@ -551,16 +564,16 @@ m_ResolvedPackages:
   entitlements:
     isAllowed: 1
   isAssetStorePackage: 0
-  datePublishedTicks: 637545389350000000
+  datePublishedTicks: 637572251600000000
   documentationUrl: 
   hasRepository: 1
   repository:
     type: git
     url: https://github.cds.internal.unity3d.com/unity/com.unity.ide.rider.git
-    revision: 0be4afe0ac726df5939a6ce50f8b7575968c5d6f
+    revision: 3007c42a679bbe2c082c276e8d79279110964553
     path: 
   unityLifecycle:
-    version: 3.0.6
+    version: 3.0.7
     nextVersion: 
 - packageId: com.unity.ide.vscode@1.2.3
   testable: 0
@@ -699,12 +712,12 @@ m_ResolvedPackages:
   unityLifecycle:
     version: 
     nextVersion: 
-- packageId: com.unity.purchasing@3.0.2
+- packageId: com.unity.purchasing@3.2.2
   testable: 0
   isDirectDependency: 1
-  version: 3.0.2
+  version: 3.2.2
   source: 1
-  resolvedPath: C:\Users\paper\Desktop\Unity broh\Chordia\Chordia\Library\PackageCache\com.unity.purchasing@3.0.2
+  resolvedPath: C:\Users\paper\Desktop\Unity broh\Chordia\Chordia\Library\PackageCache\com.unity.purchasing@3.2.2
   assetPath: Packages/com.unity.purchasing
   name: com.unity.purchasing
   displayName: In App Purchasing
@@ -728,10 +741,12 @@ m_ResolvedPackages:
     coupling with Unity Analytics to enable monitoring and decision-making based
     on trends in your revenue and purchase data across multiple platforms\n \u25AA
     Support for iOS, Mac, tvOS, Google Play, Windows, Amazon, and Samsung Galaxy
-    app stores\n \u25AA Support to work with the Unity Distribution Portal to synchronize
-    catalogs and transactions with other app stores\n \u25AA Client-side receipt
-    validation for Apple App Store and Google Play\n\nAfter installing this package,
-    open the Services Window to enable In-App Purchasing to use these features."
+    app stores(*). (*) NOTE Samsung Galaxy is obsolete and will be removed in v4.
+    Please use Unity Distribution Platform for Samsung Galaxy Apps support.\n \u25AA
+    Support to work with the Unity Distribution Portal to synchronize catalogs and
+    transactions with other app stores\n \u25AA Client-side receipt validation for
+    Apple App Store and Google Play\n\nAfter installing this package, open the Services
+    Window to enable In-App Purchasing to use these features."
   status: 4
   errors: []
   versions:
@@ -771,11 +786,14 @@ m_ResolvedPackages:
     - 3.0.2
     - 3.1.0
     - 3.2.1
+    - 3.2.2
+    - 3.2.3
+    - 4.0.0
     compatible:
-    - 3.0.2
-    - 3.1.0
-    - 3.2.1
-    verified: 3.0.2
+    - 3.2.2
+    - 3.2.3
+    - 4.0.0
+    verified: 3.2.3
   dependencies:
   - name: com.unity.ugui
     version: 1.0.0
@@ -818,23 +836,23 @@ m_ResolvedPackages:
   entitlements:
     isAllowed: 1
   isAssetStorePackage: 0
-  datePublishedTicks: 637528882460000000
+  datePublishedTicks: 637584231740000000
   documentationUrl: 
   hasRepository: 1
   repository:
     type: git
     url: https://github.cds.internal.unity3d.com/unity/com.unity.purchasing.git
-    revision: ec841c2f6c39ccd5c0138306f24db7ad69ece916
+    revision: 6ad60ad670b28d3a131388481318ce0d0ca2bc0d
     path: 
   unityLifecycle:
-    version: 3.0.2
+    version: 3.2.2
     nextVersion: 
-- packageId: com.unity.test-framework@1.1.24
+- packageId: com.unity.test-framework@1.1.27
   testable: 0
   isDirectDependency: 1
-  version: 1.1.24
+  version: 1.1.27
   source: 1
-  resolvedPath: C:\Users\paper\Desktop\Unity broh\Chordia\Chordia\Library\PackageCache\com.unity.test-framework@1.1.24
+  resolvedPath: C:\Users\paper\Desktop\Unity broh\Chordia\Chordia\Library\PackageCache\com.unity.test-framework@1.1.27
   assetPath: Packages/com.unity.test-framework
   name: com.unity.test-framework
   displayName: Test Framework
@@ -877,9 +895,11 @@ m_ResolvedPackages:
     - 1.1.20
     - 1.1.22
     - 1.1.24
+    - 1.1.26
+    - 1.1.27
     compatible:
-    - 1.1.24
-    verified: 1.1.24
+    - 1.1.27
+    verified: 1.1.27
   dependencies:
   - name: com.unity.ext.nunit
     version: 1.0.6
@@ -909,23 +929,23 @@ m_ResolvedPackages:
   entitlements:
     isAllowed: 1
   isAssetStorePackage: 0
-  datePublishedTicks: 637505702940000000
+  datePublishedTicks: 637594751620000000
   documentationUrl: 
   hasRepository: 1
   repository:
     type: git
     url: git+https://github.com/Unity-Technologies/com.unity.test-framework.git
-    revision: e6fe8892689398c0d9aba4587e0ba69edc3d82b8
+    revision: c2f2cc9b7ea61d42964257363595dff5e8c47c42
     path: 
   unityLifecycle:
-    version: 1.1.24
+    version: 1.1.27
     nextVersion: 
-- packageId: com.unity.textmeshpro@3.0.4
+- packageId: com.unity.textmeshpro@3.0.6
   testable: 0
   isDirectDependency: 1
-  version: 3.0.4
+  version: 3.0.6
   source: 1
-  resolvedPath: C:\Users\paper\Desktop\Unity broh\Chordia\Chordia\Library\PackageCache\com.unity.textmeshpro@3.0.4
+  resolvedPath: C:\Users\paper\Desktop\Unity broh\Chordia\Chordia\Library\PackageCache\com.unity.textmeshpro@3.0.6
   assetPath: Packages/com.unity.textmeshpro
   name: com.unity.textmeshpro
   displayName: TextMeshPro
@@ -1036,8 +1056,6 @@ m_ResolvedPackages:
     - 3.0.5
     - 3.0.6
     compatible:
-    - 3.0.4
-    - 3.0.5
     - 3.0.6
     verified: 3.0.6
   dependencies:
@@ -1068,23 +1086,23 @@ m_ResolvedPackages:
   entitlements:
     isAllowed: 1
   isAssetStorePackage: 0
-  datePublishedTicks: 637492944820000000
+  datePublishedTicks: 637547111200000000
   documentationUrl: 
   hasRepository: 1
   repository:
     type: git
     url: https://github.cds.internal.unity3d.com/unity/com.unity.textmeshpro.git
-    revision: e2f8dffb26de9a130d5b2140d83891d9a7825330
+    revision: 01e57e3b7de18af9dfe9baaa0a0ff5cc4765c899
     path: 
   unityLifecycle:
-    version: 3.0.4
+    version: 3.0.6
     nextVersion: 
-- packageId: com.unity.timeline@1.5.4
+- packageId: com.unity.timeline@1.5.6
   testable: 0
   isDirectDependency: 1
-  version: 1.5.4
+  version: 1.5.6
   source: 1
-  resolvedPath: C:\Users\paper\Desktop\Unity broh\Chordia\Chordia\Library\PackageCache\com.unity.timeline@1.5.4
+  resolvedPath: C:\Users\paper\Desktop\Unity broh\Chordia\Chordia\Library\PackageCache\com.unity.timeline@1.5.6
   assetPath: Packages/com.unity.timeline
   name: com.unity.timeline
   displayName: Timeline
@@ -1158,18 +1176,20 @@ m_ResolvedPackages:
     - 1.5.2
     - 1.5.4
     - 1.5.5
+    - 1.5.6
     - 1.6.0-pre.1
     - 1.6.0-pre.3
     - 1.6.0-pre.4
     - 1.6.0-pre.5
+    - 1.6.1
     compatible:
-    - 1.5.4
-    - 1.5.5
+    - 1.5.6
     - 1.6.0-pre.1
     - 1.6.0-pre.3
     - 1.6.0-pre.4
     - 1.6.0-pre.5
-    verified: 1.5.5
+    - 1.6.1
+    verified: 1.5.6
   dependencies:
   - name: com.unity.modules.director
     version: 1.0.0
@@ -1206,16 +1226,16 @@ m_ResolvedPackages:
   entitlements:
     isAllowed: 1
   isAssetStorePackage: 0
-  datePublishedTicks: 637510732040000000
+  datePublishedTicks: 637613662510000000
   documentationUrl: 
   hasRepository: 1
   repository:
     type: git
     url: https://github.cds.internal.unity3d.com/unity/com.unity.timeline.git
-    revision: 7fe777cafcad93e7e44db6bd6a18ed5bd55e781a
+    revision: bba45362fa74fde39bfa14d05688da527254b39f
     path: 
   unityLifecycle:
-    version: 1.5.4
+    version: 1.5.6
     nextVersion: 
 - packageId: com.unity.ugui@1.0.0
   testable: 0
@@ -1329,9 +1349,11 @@ m_ResolvedPackages:
     - 2.1.4
     - 2.1.6
     - 2.1.7
+    - 2.1.8
     compatible:
     - 2.1.7
-    verified: 2.1.7
+    - 2.1.8
+    verified: 2.1.8
   dependencies:
   - name: com.unity.modules.vr
     version: 1.0.0
@@ -3268,4 +3290,63 @@ m_ResolvedPackages:
     path: 
   unityLifecycle:
     version: 
+    nextVersion: 
+- packageId: com.unity.nuget.newtonsoft-json@2.0.0
+  testable: 0
+  isDirectDependency: 0
+  version: 2.0.0
+  source: 1
+  resolvedPath: C:\Users\paper\Desktop\Unity broh\Chordia\Chordia\Library\PackageCache\com.unity.nuget.newtonsoft-json@2.0.0
+  assetPath: Packages/com.unity.nuget.newtonsoft-json
+  name: com.unity.nuget.newtonsoft-json
+  displayName: Newtonsoft Json
+  author:
+    name: 
+    email: 
+    url: 
+  category: 
+  type: library
+  description: 'Newtonsoft Json for use in Unity projects and Unity packages. Currently
+    synced to version 12.0.2.
+
+
+    This package is used for advanced json serialization
+    and deserialization. Most Unity users will be better suited using the existing
+    json tools built into Unity.
+
+    To avoid assembly clashes, please use this
+    package if you intend to use Newtonsoft Json.'
+  status: 4
+  errors: []
+  versions:
+    all:
+    - 2.0.0
+    compatible:
+    - 2.0.0
+    verified: 2.0.0
+  dependencies: []
+  resolvedDependencies: []
+  keywords: []
+  registry:
+    id: main
+    name: 
+    url: https://packages.unity.com
+    scopes: []
+    isDefault: 1
+    capabilities: 7
+  hasRegistry: 1
+  hideInEditor: 1
+  entitlements:
+    isAllowed: 1
+  isAssetStorePackage: 0
+  datePublishedTicks: 0
+  documentationUrl: 
+  hasRepository: 1
+  repository:
+    type: git
+    url: https://github.cds.internal.unity3d.com/unity/com.unity.nuget.newtonsoft-json.git
+    revision: d2fd6ed876261bbd82f59199ad711e7667bf633a
+    path: 
+  unityLifecycle:
+    version: 2.0.0
     nextVersion: 

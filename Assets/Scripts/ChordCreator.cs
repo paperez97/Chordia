@@ -28,7 +28,6 @@ public class ChordCreator : MonoBehaviour
     {
         foreach(ChordBlob chord in song.chordBlobsOnTheTable)
         {
-            Debug.Log("Hace como que no se han borrado");
             if (chord.degree == nDegree)
             {
                 chord.gameObject.GetComponent<Animator>().SetTrigger("alreadyThere");
@@ -36,10 +35,22 @@ public class ChordCreator : MonoBehaviour
             }
 
         }
-            ChordBlob newChord = Instantiate(chordPrefab, chordsContainer.transform).GetComponent<ChordBlob>();
-            newChord.degree = nDegree;
-            newChord.rectTransform.anchoredPosition += Vector2.right * (newChord.degree - 1) * 60 + Vector2.down * 100;
-        Debug.Log("Cord has beeen created " + nDegree);
+        ChordBlob newChord = Instantiate(chordPrefab, chordsContainer.transform).GetComponent<ChordBlob>();
+        newChord.degree = nDegree;
+        foreach (Vector2 pos in chordsContainer.GetComponent<HexGrid>().gridPositions)
+        {
+            bool isTaken = false;
+            foreach (ChordBlob chordBlob in song.chordBlobsOnTheTable)
+            {
+                if (chordBlob.rectTransform.position.x == pos.x && chordBlob.rectTransform.position.y == pos.y) isTaken = true;
+            }
+            if (!isTaken)
+            {
+                newChord.PlaceOnGrid(pos, chordsContainer.GetComponent<HexGrid>().gridPositions);
+                break;
+            }
+        }
+        song.chordBlobsOnTheTable.Add(newChord);
     }
 
     public void SetIsOpen(bool nIsOpen)

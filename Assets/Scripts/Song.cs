@@ -1,10 +1,7 @@
-﻿using System.IO;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
-using UnityEngine.Events;
-using UnityEngine.UI;
+using System.IO;
 
 public class Song : MonoBehaviour
 {
@@ -20,7 +17,7 @@ public class Song : MonoBehaviour
 
     //Tempo
     public int stepPattern;
-    public int tempo;
+    public float tempo;
     public float tempoUnit = 0;
     public float swingTempoUnit1;
     public float swingTempoUnit2;
@@ -43,10 +40,14 @@ public class Song : MonoBehaviour
     public PatternSaver patternSaver;
     public Instrumento ins;
     SavedInfo savedInfo;
-    string thisShouldBeAFile;
+    string json;
 
     //Events
     public event EventHandler OnRefreshUI;
+
+    //Saving
+    public static string saveDirectory = "/saves/";
+    public static string fileName = "";
 
     //Methods
 
@@ -63,6 +64,11 @@ public class Song : MonoBehaviour
 
     public void Save()
     {
+        if(fileName == "")
+        {
+            Debug.Log("Write a name for the save file");
+            return;
+        }
         //guardamos los grados que tenemos en una variable
         int[] degreesOnTheTable = new int[chordBlobsOnTheTable.Count];
         for(int i = 0; i < chordBlobsOnTheTable.Count; i++)
@@ -70,49 +76,73 @@ public class Song : MonoBehaviour
             degreesOnTheTable[i] = chordBlobsOnTheTable[i].degree;
         }
         //Copiamos la info de los patterns que hay, todo en una variable
-        List<int>[,] patternsOnTheTable = new List<int>[patternSaver.transform.childCount, 8];
+        List<List<int>[]> patternsOnTheTable = new List<List<int>[]>();
+        List<float> beats = new List<float>();
         for(int i = 0; i < patternSaver.transform.childCount; i++)
         {
-            for (int j = 0; j < 8; j++)
-            {
-                patternsOnTheTable[i,j] = patternSaver.transform.GetChild(i).GetComponent<SavedPattern>().pattern[j];
-            }
+            patternsOnTheTable.Add(patternSaver.transform.GetChild(i).GetComponent<SavedPattern>().pattern);
+            beats.Add(patternSaver.transform.GetChild(i).GetComponent<SavedPattern>().beats);
         }
-        savedInfo = new SavedInfo(key.number, tempo, degreesOnTheTable, patternsOnTheTable);
-        thisShouldBeAFile = JsonUtility.ToJson(savedInfo);
-        
+        savedInfo = new SavedInfo(key.number, tempo, degreesOnTheTable, ExportPatternListToStrings(patternsOnTheTable), beats);
+        json = JsonUtility.ToJson(savedInfo);
+
+        //File management
+        string dir = Application.persistentDataPath + saveDirectory;
+        if (!Directory.Exists(dir))
+            Directory.CreateDirectory(dir);
+        File.WriteAllText(dir + fileName, json);
+        Debug.Log(json);
     }
 
-    public void Load()
+    public void Load(string fullPath)
     {
-        patternSaver.DestroyAllPatterns();
-        foreach (ChordBlob chord in chordBlobsOnTheTable)
+
+        //File management
+        if (!File.Exists(fullPath))
         {
-            chordBlobsOnTheTable.Remove(chord);
-            Destroy(chord.gameObject);
+            Debug.Log("Save file does not exist");
+            return;
         }
-        SavedInfo loadedInfo = savedInfo;
+        string json = File.ReadAllText(fullPath);
+        Debug.Log(json);
+        SavedInfo loadedInfo = JsonUtility.FromJson<SavedInfo>(json);
+
+        //Destruimos todo lo que hay
+        patternSaver.DestroyAllPatterns();
+        foreach(ChordBlob chordBlob in chordBlobsOnTheTable)
+        {
+            Destroy(chordBlob.gameObject);
+        }
+        chordBlobsOnTheTable = new List<ChordBlob>();
+
+        //Establecemos las variables con los nuevos valores
         key = new Music.Note(loadedInfo.key);
         tempo = loadedInfo.tempo;
-        foreach(int chordDegree in loadedInfo.chords)
+
+        //Creamos nuevos acordes con los degrees guardados
+        foreach (int chordDegree in loadedInfo.chords)
         {
             chordCreator.CreateChord(chordDegree);
-            Debug.Log("Acorde creado " + chordDegree);
         }
-        for (int i = 0; i < loadedInfo.pattern.GetLength(0); i++)
+
+        //Creamos nuevos patterns con la info guardada
+        for (int i = 0; i < loadedInfo.patterns.Count; i++)
         {
-            List<int>[] copiedPattern = new List<int>[8];
-            for (int j = 0; j < loadedInfo.pattern.GetLength(1); j++)
-            {
-                copiedPattern[j] = loadedInfo.pattern[i, j];
-            }
+            //Variable temporal donde creo el pattern a partir de la info lodeada
+            List<int>[] copiedPattern = ExportStringsToPatternList(loadedInfo.patterns)[i];
             SavedPattern loadedPattern = patternSaver.ReturnNewPattern();
             loadedPattern.pattern = copiedPattern;
+            loadedPattern.beats = loadedInfo.beats[i];
         }
         OnRefreshUI?.Invoke(this, EventArgs.Empty);
+
     }
 
 
+    public void ChangeFileName(string nFileName)
+    {
+        fileName = nFileName + ".json";
+    }
     public void ChangeSwing(bool isSwing)
     {
         swing = isSwing;
@@ -120,12 +150,11 @@ public class Song : MonoBehaviour
     }
     public void ChangeKey(int newKey)
     {
-        Debug.Log("Key changed: " + key.Name() + " to " + new Music.Note(newKey).Name()); ;
         key = new Music.Note(newKey);
         scale = Music.NotesOfScale(key, scaleType);
         OnRefreshUI?.Invoke(this, EventArgs.Empty);
     }
-    public void ChangeTempo(int newTempo)
+    public void ChangeTempo(float newTempo)
     {
         tempo = newTempo;
         tempoUnit = 1f / (newTempo / 60) / 2;
@@ -195,9 +224,62 @@ public class Song : MonoBehaviour
     }
 
 
+    public List<string> ExportPatternListToStrings(List<List<int>[]> patternList)
+    {
+        List<string> result = new List<string>();
+        foreach (List<int>[] pattern in patternList)
+        {
+            string thisPattern = "";
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < pattern[i].Count; j++)
+                {
+                    thisPattern += pattern[i][j];
+                }
+                thisPattern += "-";
+            }
+            Debug.Log(thisPattern);
+            result.Add(thisPattern);
+        }
+        return result;
+    }
+
+    public List<List<int>[]> ExportStringsToPatternList(List<string> patternStrings)
+    {
+        List<List<int>[]> result = new List<List<int>[]>();
+        foreach (string patternString in patternStrings)
+        {
+            List<int>[] pattern = new List<int>[]
+            {   new List<int>(),
+                new List<int>(),
+                new List<int>(),
+                new List<int>(),
+                new List<int>(),
+                new List<int>(),
+                new List<int>(),
+                new List<int>()
+            };
+            int patternBeat = 0;
+            foreach (char character in patternString)
+            {
+                if ( patternBeat >= 8) break;
+                if (character == '-')
+                {
+                    patternBeat++;
+                }
+                else
+                {
+                    pattern[patternBeat].Add((int)Char.GetNumericValue(character));
+                }
+            }
+            result.Add(pattern);
+        }
+        return result;
+    }
+
     private void Start()
     {
-        GenerateSong(0, 120, 0, ins, new int[] { 1, 6, 7 });
+        GenerateSong(0, 120, 0, ins, new int[] {});
     }
 
     void FixedUpdate()
@@ -264,22 +346,25 @@ public class Song : MonoBehaviour
                 interprete.TocarBajos(bajosATocar);
             }
         }
+
+
         
     }
-
+    [Serializable]
     private class SavedInfo
     {
         public int key;
-        public int tempo;
+        public float tempo;
         public int[] chords;
-        public List<int>[,] pattern;
-        public List<int> beats;
-        public SavedInfo(int nKey, int nTempo, int[] nChords, List<int>[,] nPattern)
+        public List<string> patterns;
+        public List<float> beats;
+        public SavedInfo(int nKey, float nTempo, int[] nChords, List<string> nPattern, List<float> nBeats)
         {
             key = nKey;
             tempo = nTempo;
             chords = nChords;
-            pattern = nPattern;
+            patterns = nPattern;
+            beats = nBeats;
         }
 
     }

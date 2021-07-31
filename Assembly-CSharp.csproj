@@ -60,7 +60,9 @@
     <Compile Include="Assets\Scripts\ChordCreator.cs" />
     <Compile Include="Assets\Scripts\InstrumentPanel.cs" />
     <Compile Include="Assets\Scripts\KeyPanel.cs" />
-    <Compile Include="Assets\Scripts\NewBehaviourScript1.cs" />
+    <Compile Include="Assets\Scripts\HexGrid.cs" />
+    <Compile Include="Assets\Scripts\SaveLoadPanel.cs" />
+    <Compile Include="Assets\Scripts\SaveManager.cs" />
     <Compile Include="Assets\Scripts\PatternEditorCell.cs" />
     <Compile Include="Assets\Scripts\ChordEvents.cs" />
     <Compile Include="Assets\Scripts\AutoExpandGridLayoutGroup.cs" />
