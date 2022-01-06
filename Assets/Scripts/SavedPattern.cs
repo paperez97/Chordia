@@ -6,16 +6,24 @@ using UnityEngine.UI;
 public class SavedPattern : MonoBehaviour
 {
 
-    public List<int>[] pattern;
-    public List<int>[] percPattern;
-    public float beats;
+    public List<int>[] pattern = new List<int>[] { new List<int>(),
+                                    new List<int>(),
+                                    new List<int>(),
+                                    new List<int>(),
+                                    new List<int>(),
+                                    new List<int>(),
+                                    new List<int>(),
+                                    new List<int>()
+};
+public List<int>[] percPattern;
+    public float beats = 8;
     public Song song;
     Toggle toggle;
     public bool isDefault;
     public Transform sqPreviewGrid;
     public Transform sqPreviewGridBass;
     
-    public void SetBeats(float newBeats)
+    public void SetBeats(int newBeats)
     {
         beats = newBeats;
     }
@@ -23,18 +31,12 @@ public class SavedPattern : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         song = GameObject.FindGameObjectWithTag("Song").GetComponent<Song>();
 
         toggle = GetComponent<Toggle>();
  
-        pattern = new List<int>[] { new List<int>(),
-                                    new List<int>(),
-                                    new List<int>(),
-                                    new List<int>(),
-                                    new List<int>(),
-                                    new List<int>(),
-                                    new List<int>(),
-                                    new List<int>() };
+
 
         percPattern = new List<int>[] { new List<int>(),
                                     new List<int>(),
@@ -44,8 +46,6 @@ public class SavedPattern : MonoBehaviour
                                     new List<int>(),
                                     new List<int>(),
                                     new List<int>() };
-
-        beats = 8;
 
         if(isDefault)
         {
@@ -75,4 +75,5 @@ public class SavedPattern : MonoBehaviour
     {
         pattern[beat-1].Add(note);
     }
+
 }

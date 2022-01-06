@@ -42,6 +42,7 @@ public class ChordBlob : MonoBehaviour
     Vector3 mouseDownPos;
     public bool isExpanded;
     public int option;
+    public HexGrid hexGrid;
 
     //Chord
     public Song song;
@@ -58,8 +59,8 @@ public class ChordBlob : MonoBehaviour
     {
         //Chord
         song = GameObject.FindGameObjectWithTag("Song").GetComponent<Song>();
+        song.OnRefreshUI += Song_OnRefreshUI;
         chordCreator = GameObject.FindGameObjectWithTag("ChordCreator").GetComponent<ChordCreator>();
-        song.chordBlobsOnTheTable.Add(this);
         numOptions = variants.childCount;
 
         //Design
@@ -103,6 +104,16 @@ public class ChordBlob : MonoBehaviour
             variant.gameObject.GetComponent<Variant>().text.color = degreeText.color;
         }
         UpdateChordBlob();
+
+        //Behaviour
+        hexGrid = transform.parent.GetComponent<HexGrid>();
+
+        
+    }
+
+    private void Song_OnRefreshUI(object sender, EventArgs e)
+    {
+        UpdateChordBlob();
     }
 
     void Update()
@@ -120,8 +131,9 @@ public class ChordBlob : MonoBehaviour
         if (dragging)
         {
             dragged = true;
-            transform.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y) + offset;
-
+            transform.SetAsLastSibling();
+            PlaceOnGrid(new Vector2(Input.mousePosition.x, Input.mousePosition.y) + offset, hexGrid.gridPositions);
+            
         }
         else
         {
@@ -150,11 +162,20 @@ public class ChordBlob : MonoBehaviour
                 variant.isOn = variant.optionNumber == option;
             }
         }
-       
 
-        //Que no se salga
-        rectTransform.anchoredPosition = new Vector2(Mathf.Clamp(rectTransform.anchoredPosition.x, 0, transform.parent.GetComponent<RectTransform>().rect.width), Mathf.Clamp(rectTransform.anchoredPosition.y, -transform.parent.GetComponent<RectTransform>().rect.height, 0));
+    }
 
+    public void PlaceOnGrid(Vector2 supposedPosition, List<Vector2> gridPositions)
+    {
+        Vector2 closestGridPosition = gridPositions[0];
+        foreach (Vector2 candidateGridPosition in gridPositions)
+        {
+            if (Vector2.Distance(candidateGridPosition, supposedPosition) < Vector2.Distance(closestGridPosition, supposedPosition))
+            {
+                closestGridPosition = candidateGridPosition;
+            }
+        }
+        transform.position = closestGridPosition;
     }
 
     public void UpdateChordBlob()
@@ -233,6 +254,13 @@ public class ChordBlob : MonoBehaviour
         chordCreator.anyChordsDragging = false;
         if (dragged) { dragged = false; }
         else { SetOn(SwipeOption(swipe, numOptions)); }
+        foreach (ChordBlob chordBlob in song.chordBlobsOnTheTable)
+        {
+            if (chordBlob.rectTransform.position == rectTransform.position && chordBlob != this)
+            {
+                chordBlob.PlaceOnGrid(mouseDownPos, hexGrid.gridPositions);
+            }
+        }
     }
 
     public int SwipeOption(Vector2 swipe, int options)
@@ -278,6 +306,11 @@ public class ChordBlob : MonoBehaviour
             deleting = false;
             animator.SetBool("deleting", false);
         }
+    }
+    private void OnDestroy()
+    {
+        song.chordBlobsOnTheTable.Remove(this);
+        song.OnRefreshUI -= Song_OnRefreshUI;
     }
 }
 

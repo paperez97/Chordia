@@ -322,6 +322,7 @@ MonoBehaviour:
   pressed: 0
   isExpanded: 0
   option: 0
+  hexGrid: {fileID: 0}
   song: {fileID: 0}
   degree: 0
   variantMessage: triad

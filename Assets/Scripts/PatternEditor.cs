@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class PatternEditor : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class PatternEditor : MonoBehaviour
 
     private void Start()
     {
+        song.OnRefreshUI += Song_OnRefreshUI; ;
         bin.interactable = false;
         foreach (Transform cell in cellGrid)
         {
@@ -42,6 +44,10 @@ public class PatternEditor : MonoBehaviour
         {
             drumCells.Add(cell.gameObject.GetComponent<PatternEditorCell>());
         }
+    }
+
+    private void Song_OnRefreshUI(object sender, EventArgs e)
+    {
         Refresh();
     }
 
@@ -49,21 +55,20 @@ public class PatternEditor : MonoBehaviour
     {
         foreach (PatternEditorCell cell in patternCells)
         {
-            cell.RefreshNotesToggle();
+            cell.RefreshCell();
         }
         foreach (PatternEditorCell cell in drumCells)
         {
             cell.RefreshDrumsToggle();
         }
-        slider.value = song.savedPattern.beats;
+        slider.value = song.selectedPattern.beats;
     }
 
-    public void DestroyEditingPattern()
+    public void DestroySelectedPattern()
     {
-        Destroy(song.savedPattern.gameObject);
+        Destroy(song.selectedPattern.gameObject);
         if (patternSaver.transform.childCount < 3)
         { bin.interactable = false; }
-        song.playingPattern = patternSaver.transform.GetChild(0).GetComponent<SavedPattern>();
     }
 }
 

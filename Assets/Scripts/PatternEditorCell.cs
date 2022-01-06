@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,42 +20,26 @@ public class PatternEditorCell : MonoBehaviour
     {//Se añade a pattern si no está y se quita si está
         if(isOn)
         {
-            if (!song.savedPattern.pattern[column].Exists(element => element == row))
-             { song.savedPattern.pattern[column].Add(row); }
-            if (row >= 0)
-            {
-                song.savedPattern.sqPreviewGrid.GetChild((5 - row) * 8 + column).gameObject.GetComponent<PatternPreviewSq>().TurnOn();
-            }
-            else
-            {
-                song.savedPattern.sqPreviewGridBass.GetChild(column).gameObject.GetComponent<PatternPreviewSq>().TurnOn();
-            }
-
+            if (!song.selectedPattern.pattern[column].Contains(row))
+             { song.selectedPattern.pattern[column].Add(row); }
         }
         else
         {
-            song.savedPattern.pattern[column].Remove(row);
-            if (row >= 0)
-            {
-                song.savedPattern.sqPreviewGrid.GetChild((5 - row) * 8 + column).gameObject.GetComponent<PatternPreviewSq>().TurnOff();
-            }
-            else
-            {
-                song.savedPattern.sqPreviewGridBass.GetChild(column).gameObject.GetComponent<PatternPreviewSq>().TurnOff();
-            }
+            song.selectedPattern.pattern[column].Remove(row);
         }
+        song.InvokeRefresh();
     }
 
     public void SetDrumPattern(bool isOn)
     {//Se añade a pattern si no está y se quita si está
         if (isOn)
         {
-            if (!song.savedPattern.percPattern[column].Exists(element => element == row))
-            { song.savedPattern.percPattern[column].Add(row); }
+            if (!song.selectedPattern.percPattern[column].Contains(row))
+            { song.selectedPattern.percPattern[column].Add(row); }
         }
         else
         {
-            song.savedPattern.percPattern[column].Remove(row);
+            song.selectedPattern.percPattern[column].Remove(row);
         }
     }
 
@@ -66,15 +51,15 @@ public class PatternEditorCell : MonoBehaviour
     void Update()
     {
         playing.SetActive(song.stepPattern == (column));
-        lowlight.SetActive(column > song.savedPattern.beats - 1);
+        lowlight.SetActive(column > song.selectedPattern.beats - 1);
     }
 
-    public void RefreshNotesToggle()
+    public void RefreshCell()
     {
-        toggle.isOn = song.savedPattern.pattern[column].Exists(element => element == row);
+        toggle.isOn = song.selectedPattern.pattern[column].Exists(element => element == row);
     }
     public void RefreshDrumsToggle()
     {
-        toggle.isOn = song.savedPattern.percPattern[column].Exists(element => element == row);
+        toggle.isOn = song.selectedPattern.percPattern[column].Exists(element => element == row);
     }
 }
