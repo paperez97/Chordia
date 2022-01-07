@@ -10,10 +10,9 @@ public class Song : MonoBehaviour
     public SavedPattern selectedPattern;
     public SavedPattern playingPattern;
     public List<ChordBlob> chordBlobsOnTheTable = new List<ChordBlob>();
-    public int[] scaleType = Music.major;
-    public Music.Note[] scale;
+    public int[] scaleType = Music.escalaJonica;
     public Music.Note key = new Music.Note(0);
-
+    public Music.Note[] scale;
 
     //Tempo
     public int stepPattern;
@@ -36,7 +35,7 @@ public class Song : MonoBehaviour
     //Behaviour
     public PatternEditor patternEditor;
     public List<int> teclasAcorde;
-    public ChordCreator chordCreator;
+    public ChordBlobManager chordManager;
     public PatternSaver patternSaver;
     public Instrumento ins;
     SavedInfo savedInfo;
@@ -57,7 +56,7 @@ public class Song : MonoBehaviour
         ChangeScaleType(nScaleType);
         ChangeInterprete(nInterprete);
         ChangeTempo(nTempo);
-        foreach (int nChord in nChords) chordCreator.CreateChord(nChord);
+        foreach (int nChord in nChords) chordManager.CreateChord(nChord);
         playingPattern = patternSaver.ReturnNewPattern();
         ChangePattern(playingPattern);
     }
@@ -122,7 +121,7 @@ public class Song : MonoBehaviour
         //Creamos nuevos acordes con los degrees guardados
         foreach (int chordDegree in loadedInfo.chords)
         {
-            chordCreator.CreateChord(chordDegree);
+            chordManager.CreateChord(chordDegree);
         }
 
         //Creamos nuevos patterns con la info guardada
@@ -151,7 +150,9 @@ public class Song : MonoBehaviour
     public void ChangeKey(int newKey)
     {
         key = new Music.Note(newKey);
+        Debug.Log("Scale should be made now");
         scale = Music.NotesOfScale(key, scaleType);
+        Debug.Log("Scale should have been made now. Size: " + scale.Length);
         OnRefreshUI?.Invoke(this, EventArgs.Empty);
     }
     public void ChangeTempo(float newTempo)
@@ -279,7 +280,9 @@ public class Song : MonoBehaviour
 
     private void Start()
     {
+        ChangeKey(key.number);
         GenerateSong(0, 120, 0, ins, new int[] {});
+
     }
 
     void FixedUpdate()

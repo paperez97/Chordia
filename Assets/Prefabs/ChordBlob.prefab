@@ -277,10 +277,10 @@ RectTransform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 309.6496, y: 309.6496}
+  m_SizeDelta: {x: 309.64966, y: 309.64966}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5431517745134056873
 MonoBehaviour:
@@ -311,7 +311,6 @@ MonoBehaviour:
   chordNameText: {fileID: 3049129350311003409}
   chordNameText2: {fileID: 375230762575836882}
   variants: {fileID: 7307133887461029291}
-  chordCreator: {fileID: 0}
   activated: 0
   deleting: 0
   swipe: {x: 0, y: 0}
@@ -322,7 +321,6 @@ MonoBehaviour:
   pressed: 0
   isExpanded: 0
   option: 0
-  hexGrid: {fileID: 0}
   song: {fileID: 0}
   degree: 0
   variantMessage: triad

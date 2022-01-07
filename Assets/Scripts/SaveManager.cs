@@ -41,21 +41,14 @@ public class SaveManager : MonoBehaviour
             {
                 song.Load(saveFiles[index]);
             });
-            buttonObject.GetComponent<Button>().onClick.AddListener(() =>
-            {
-                SaveLoadPanelToggle.isOn = false;
-            });
-            buttonObject.GetComponent<Button>().onClick.AddListener(() =>
-            {
-                SaveLoadPanelToggle.isOn = false;
-            });
+
             FindGameObjectInChildWithTag(buttonObject, "TrashButton").GetComponent<Button>().onClick.AddListener(() =>
             {
                 File.Delete(saveFiles[index]);
                 Destroy(buttonObject);
                 ShowLoadScreen();
             });
-            buttonObject.GetComponentInChildren<Text>().text = saveFiles[i].Replace(Application.persistentDataPath + "/saves/", "").Replace(".json", "");
+            buttonObject.GetComponentInChildren<Text>().text = "  " + saveFiles[i].Replace(Application.persistentDataPath + "/saves/", "").Replace(".json", "");
         }
     }
 

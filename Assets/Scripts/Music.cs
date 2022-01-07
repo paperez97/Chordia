@@ -54,6 +54,7 @@ public static class Music
         //Devuelve una lista con las notas del modo mode en la tonalidad key
         //definida por key y scaleType
         Note[] nScale = new Note[mode.Length];
+        Debug.Log(mode.Length);
         for (int i = 0; i < mode.Length; i++)
         {
             nScale[i] = new Note((key.number + mode[i]) % 12);

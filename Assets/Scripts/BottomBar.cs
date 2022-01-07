@@ -6,24 +6,21 @@ public class BottomBar : MonoBehaviour
 {
     public Animator animator;
 
-    public void OpenKeyPanel(bool isOn)
+    public void OpenHome(bool isOn)
     {
-        animator.SetBool("Key", isOn);
+        animator.SetBool("Home", isOn);
     }
-    public void OpenPatternSmallPanel(bool isOn)
+    public void OpenSettings(bool isOn)
     {
-        animator.SetBool("Pattern small", isOn);
+        animator.SetBool("Settings", isOn);
     }
-    public void OpenPatternBigPanel(bool isOn)
+    public void OpenSongs(bool isOn)
     {
-        animator.SetBool("Pattern big", isOn);
+        animator.SetBool("Songs", isOn);
     }
-    public void OpenTempoPanel(bool isOn)
+
+    public void PatternEditor(bool isOn)
     {
-        animator.SetBool("Tempo", isOn);
-    }
-    public void OpenInstrumentPanel(bool isOn)
-    {
-        animator.SetBool("Instrument", isOn);
+        animator.SetBool("PatternEditor", isOn);
     }
 }

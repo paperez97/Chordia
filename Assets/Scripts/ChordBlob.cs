@@ -25,7 +25,6 @@ public class ChordBlob : MonoBehaviour
     public Text chordNameText;
     public Text chordNameText2;
     public Transform variants;
-    public ChordCreator chordCreator;
 
     //Behaviour
     public bool activated = false;
@@ -42,7 +41,6 @@ public class ChordBlob : MonoBehaviour
     Vector3 mouseDownPos;
     public bool isExpanded;
     public int option;
-    public HexGrid hexGrid;
 
     //Chord
     public Song song;
@@ -60,7 +58,6 @@ public class ChordBlob : MonoBehaviour
         //Chord
         song = GameObject.FindGameObjectWithTag("Song").GetComponent<Song>();
         song.OnRefreshUI += Song_OnRefreshUI;
-        chordCreator = GameObject.FindGameObjectWithTag("ChordCreator").GetComponent<ChordCreator>();
         numOptions = variants.childCount;
 
         //Design
@@ -105,9 +102,6 @@ public class ChordBlob : MonoBehaviour
         }
         UpdateChordBlob();
 
-        //Behaviour
-        hexGrid = transform.parent.GetComponent<HexGrid>();
-
         
     }
 
@@ -123,7 +117,6 @@ public class ChordBlob : MonoBehaviour
         {
             dragging = true;
             animator.SetBool("dragging", true);
-            chordCreator.anyChordsDragging = true;
             offset = - mouseDownPos + transform.position;
         }
 
@@ -132,7 +125,7 @@ public class ChordBlob : MonoBehaviour
         {
             dragged = true;
             transform.SetAsLastSibling();
-            PlaceOnGrid(new Vector2(Input.mousePosition.x, Input.mousePosition.y) + offset, hexGrid.gridPositions);
+            //PlaceOnGrid(new Vector2(Input.mousePosition.x, Input.mousePosition.y) + offset, hexGrid.gridPositions);
             
         }
         else
@@ -165,19 +158,6 @@ public class ChordBlob : MonoBehaviour
 
     }
 
-    public void PlaceOnGrid(Vector2 supposedPosition, List<Vector2> gridPositions)
-    {
-        Vector2 closestGridPosition = gridPositions[0];
-        foreach (Vector2 candidateGridPosition in gridPositions)
-        {
-            if (Vector2.Distance(candidateGridPosition, supposedPosition) < Vector2.Distance(closestGridPosition, supposedPosition))
-            {
-                closestGridPosition = candidateGridPosition;
-            }
-        }
-        transform.position = closestGridPosition;
-    }
-
     public void UpdateChordBlob()
     {
         //Qué grado es? (I, III, IV...)
@@ -185,7 +165,10 @@ public class ChordBlob : MonoBehaviour
         degreeText2.text = Music.ToRomanNumerals(degree);
 
         //Sacamos las notas para esta tonalidad
-        chord = Music.CalculateChord(degree, song.scale, variantMessage);
+        if (song.scale != null)
+        {
+            chord = Music.CalculateChord(degree, song.scale, variantMessage);
+        }
         bass = song.key.MoveInScale(degree-1, song.scale);
 
 
@@ -251,16 +234,8 @@ public class ChordBlob : MonoBehaviour
         pressed = false;
         dragging = false;
         animator.SetBool("dragging", false);
-        chordCreator.anyChordsDragging = false;
         if (dragged) { dragged = false; }
         else { SetOn(SwipeOption(swipe, numOptions)); }
-        foreach (ChordBlob chordBlob in song.chordBlobsOnTheTable)
-        {
-            if (chordBlob.rectTransform.position == rectTransform.position && chordBlob != this)
-            {
-                chordBlob.PlaceOnGrid(mouseDownPos, hexGrid.gridPositions);
-            }
-        }
     }
 
     public int SwipeOption(Vector2 swipe, int options)

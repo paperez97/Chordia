@@ -21,6 +21,9 @@ public class KeyPanel : MonoBehaviour
     {
         if(isOn)
         {
+            Debug.Log(keyboard);
+            Debug.Log(keyboard.GetComponent<ToggleGroup>());
+            Debug.Log(keyboard.GetComponent<ToggleGroup>().GetFirstActiveToggle());
             song.ChangeKey(Music.NoteToInt(keyboard.GetComponent<ToggleGroup>().GetFirstActiveToggle().gameObject.name));
         }
     }
