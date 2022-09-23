@@ -133,7 +133,6 @@ public class ChordBlob : MonoBehaviour
             if (deleting)
             {
                 Destroy(gameObject);
-                song.chordBlobsOnTheTable.Remove(this);
             }
         }
 
@@ -284,7 +283,6 @@ public class ChordBlob : MonoBehaviour
     }
     private void OnDestroy()
     {
-        song.chordBlobsOnTheTable.Remove(this);
         song.OnRefreshUI -= Song_OnRefreshUI;
     }
 }

@@ -68,12 +68,14 @@ public List<int>[] percPattern;
 
     public void ActivatePattern()
     {
-         song.ChangePattern(this); 
+         song.ChangePattern(this);
+        song.InvokeRefresh();
     }
 
     public void AddToPattern(int beat, int note)
     {
         pattern[beat-1].Add(note);
+        song.InvokeRefresh();
     }
 
 }

@@ -39,7 +39,7 @@ public class SaveManager : MonoBehaviour
             var index = i;
             buttonObject.GetComponent<Button>().onClick.AddListener(() =>
             {
-                song.Load(saveFiles[index]);
+                //song.Load(saveFiles[index]);
             });
 
             FindGameObjectInChildWithTag(buttonObject, "TrashButton").GetComponent<Button>().onClick.AddListener(() =>
